@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ComuniAvisa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar bg-dark">
+      <div class="container-fluid w-100 d-flex flex-column flex-md-row justify-content-center align-item-center gap-3">
+        <h1 class="navbar-brand text-light m-0 p-0">ComuniAvisa</h1>
+        <a style="text-decoration: none;" href="../paginas/home.html" class="text-light fs-4">Home</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <form class="position-absolute start-50 top-50 translate-middle p-3 bg-dark text-light rounded">
+      <input type="text" id="id" style="display: none;">
+      <h2>Criar alerta</h2>
+      <div class="mb-3 d-flex flex-column">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" required>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <label for="descricao">Descrição</label>
+        <textarea style="resize: none;" type="text" id="descricao"></textarea>
+        <span>(OPCIONAL)</span>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <label for="imagem">Imagem</label>
+        <input type="text" id="imagem">
+        <span>(OPCIONAL)</span>
+      </div>
+      <div class="mb-3 text-center">
+        <button type="submit" id="criar-alerta" class="btn btn-primary text-center">Criar Alerta</button>
+      </div>
+    </form>
+  </main>
+  <script src="../js/alerta.js"></script>
+</body>
+
+</html>

@@ -1,3 +1,6 @@
+const postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
+localStorage.setItem("postagens", JSON.stringify(postagens));
+
 document.addEventListener("DOMContentLoaded", () => {
   const sessao = JSON.parse(localStorage.getItem("sessao"));
   if (!sessao) {

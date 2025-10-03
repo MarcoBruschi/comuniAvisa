@@ -3,17 +3,17 @@ const sessao = JSON.parse(localStorage.getItem("sessao"));
 const titulo = document.getElementById("titulo");
 const descricao = document.getElementById("descricao");
 const imagem = document.getElementById("imagem");
-const alertas = localStorage.getItem("alertas") ? JSON.parse(localStorage.getItem("alertas")) : [];
 const idValor = document.getElementById("id");
+const postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
 idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
 
 const tituloForm = document.querySelector(".titulo-form");
 
 if (idValor.value) {
-  const alerta = alertas.find(alerta => alerta.id == idValor.value);
-  titulo.value = alerta.titulo;
-  descricao.value = alerta.descricao;
-  imagem.value = alerta.imagem;
+  const post = postagens.find(post => post.id == idValor.value);
+  titulo.value = post.titulo;
+  descricao.value = post.descricao;
+  imagem.value = post.imagem;
 
   tituloForm.textContent = "Editar Alerta";
   btnCriarAlerta.textContent = "Editar Alerta";
@@ -48,20 +48,20 @@ btnCriarAlerta.addEventListener("click", (event) => {
         data: dataFormatada,
         tipo: "Alerta"
       }
-      alertas.push(alerta);
-      localStorage.setItem("alertas", JSON.stringify(alertas));
+      postagens.push(alerta);
+      localStorage.setItem("postagens", JSON.stringify(postagens));
       window.location.href = "./home.html";
     }
   } else {
     if (titulo && sessao) {
-      const alerta = alertas.find(alerta => alerta.id == idValor.value);
+      const alerta = postagens.find(post => post.id == idValor.value);
       alerta.titulo = titulo.value;
       alerta.descricao = descricao.value;
       alerta.imagem = imagem.value;
 
-      const novosAlertas = alertas.filter(alertas => alertas.id != idValor.value);
-      novosAlertas.push(alerta);
-      localStorage.setItem("alertas", JSON.stringify(novosAlertas));
+      const novosPosts = postagens.filter(post => post.id != idValor.value);
+      novosPosts.push(alerta);
+      localStorage.setItem("postagens", JSON.stringify(novosPosts));
       localStorage.removeItem("postagemEditar");
       window.location.href = "../paginas/postagens.html";
     }

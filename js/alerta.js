@@ -7,11 +7,19 @@ const alertas = localStorage.getItem("alertas") ? JSON.parse(localStorage.getIte
 const idValor = document.getElementById("id");
 idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
 
+const tituloForm = document.querySelector(".titulo-form");
+
 if (idValor.value) {
   const alerta = alertas.find(alerta => alerta.id == idValor.value);
   titulo.value = alerta.titulo;
   descricao.value = alerta.descricao;
   imagem.value = alerta.imagem;
+
+  tituloForm.textContent = "Editar Alerta";
+  btnCriarAlerta.textContent = "Editar Alerta";
+} else {
+  tituloForm.textContent = "Criar Alerta";
+  btnCriarAlerta.textContent = "Criar Alerta";
 }
 
 btnCriarAlerta.addEventListener("click", (event) => {

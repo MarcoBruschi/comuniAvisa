@@ -16,8 +16,8 @@ btnEntrar.addEventListener("click", (event) => {
     if (contaUsuario) {
       if (contaUsuario.senha === senha.value) {
         const sessao = {
-          nome : nome.value,
-          email : email.value
+          nome : contaUsuario.nome,
+          email : contaUsuario.email,
         }
         localStorage.setItem("sessao", JSON.stringify(sessao));
         window.location.href = "./paginas/home.html";

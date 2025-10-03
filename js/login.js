@@ -45,6 +45,8 @@ btnEntrar.addEventListener("click", (event) => {
 
   const contaUsuario = contas.find(conta => conta.email === email.value);
 
+  erroCampo.textContent = "";
+
   if (estado === "login") {
     if (email.value && senha.value) {
       if (contaUsuario) {
@@ -88,6 +90,8 @@ btnEntrar.addEventListener("click", (event) => {
 
 btnCriarConta.addEventListener("click", (event) => {
   event.preventDefault();
+
+  erroCampo.textContent = "";
 
   mudarEstado();
 });

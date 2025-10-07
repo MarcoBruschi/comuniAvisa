@@ -10,34 +10,43 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
   <header>
-    <nav class="navbar bg-dark">
-      <div class="container-fluid w-100 d-flex justify-content-center">
-        <h1 class="navbar-brand text-light">ComuniAvisa</h1>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid w-100 d-flex flex-md-row justify-content-center align-item-center gap-5 p-3">
+        <h1 class="navbar-brand text-light m-0 p-0">ComuniAvisa</h1>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav d-flex gap-4 align-items-center">
+            <li class="nav-item">
+              <a class="nav-link text-light fs-5" href="./alerta.html">Alerta</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light fs-5" href="#">Serviço</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light fs-5" href="#">Monitoria</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light fs-5" href="#">Workshop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light fs-5" href="#">Conteúdo Educativo</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   </header>
   <main class="mx-5 my-5">
     <div class="d-flex align-items-center gap-3">
       <h1 id="sessao-nome"></h1>
-      <a href="../index.html" class="text-center fs-3 text-decoration-none">Sair</a>
-    </div>
-    <div>
-      <h2>Deseja criar uma postagem?</h2>
-      <ul class="list-group" style="max-width: 25em;">
-        <li class="list-group-item"><a href="./alerta.html">Alerta</a></li>
-        <li class="list-group-item"><a href="#">Serviço</a></li>
-        <li class="list-group-item"><a href="#">Monitoria</a></li>
-        <li class="list-group-item"><a href="#">Workshop</a></li>
-        <li class="list-group-item"><a href="#">Conteúdo educativo</a></li>
-      </ul>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <h2>Acessar postagens:</h2>
-      <a href="./postagens.html" class="fs-2">Ver</a>
     </div>
   </main>
   <script src="../js/home.js"></script>

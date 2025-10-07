@@ -7,10 +7,6 @@ const nome = document.getElementById("nome");
 const email = document.getElementById("email");
 const senha = document.getElementById("senha");
 
-if (localStorage.getItem("sessao")) {
-  localStorage.removeItem("sessao");
-}
-
 const tituloForm = document.querySelector(".titulo-login");
 const nomeCampo = document.querySelector(".nome-cadastro");
 

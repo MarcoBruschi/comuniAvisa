@@ -11,20 +11,24 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../css/postagens.css">
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body class="d-flex flex-column vh-100">
   <header>
-    <nav class="navbar bg-dark fixed-top">
-      <div class="container-fluid w-100 d-flex flex-column flex-md-row justify-content-center align-item-center gap-3">
+    <nav class="navbar fixed-top">
+      <div
+        class="container-fluid w-100 d-flex flex-column flex-md-row justify-content-center align-item-center gap-3 p-3">
         <h1 class="navbar-brand text-light m-0 p-0">ComuniAvisa</h1>
         <a style="text-decoration: none;" href="../paginas/home.html" class="text-light fs-4">Home</a>
       </div>
     </nav>
   </header>
   <main style="flex: 1;" class="pb-5">
-    <div class="text-center w-100"><h1>Postagens</h1></div>
-    <div id="postagens" style="flex: 1; display: flex; justify-content: center; flex-direction: column; align-items: center; gap: 1em;">
+    <div class="text-center w-100 my-5">
+      <h1>Postagens</h1>
+    </div>
+    <div id="postagens" class="d-flex justify-content-center flex-column align-items-center gap-5" style="flex: 1;">
     </div>
   </main>
   <script src="../js/postagens.js"></script>

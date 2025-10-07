@@ -1,9 +1,32 @@
+@import url("./styles.css");
+
+#criar-alerta {
+  background-color: var(--cor-azul-secundaria);
+  border: none;
+}
+
+#criar-alerta:hover {
+  background-color: var(--cor-azul-principal);
+}
+
 .form-alerta {
-  width: 100%;
+  width: 90%;
 }
 
 @media screen and (min-width: 728px) {
   .form-alerta {
-    width: 25em;
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .form-alerta {
+    width: 40%;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .form-alerta {
+    width: 20%;
   }
 }

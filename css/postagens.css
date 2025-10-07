@@ -1,17 +1,41 @@
-main {
-  margin-top: 4em;
-}
+@import url("./styles.css");
 
 .card {
-  width: 25em;
+  box-shadow: 5px 5px 5px 1px rgb(0, 3, 48);
+  transition: transform 0.4s;
+  width: 90%;
 }
 
-@media screen and (max-width: 728px) {
-  main {
-    margin-top: 6em;
-  }
+.card:hover {
+  cursor: pointer;
+  transform: scale(0.99);
+}
 
+.editar-post {
+  background-color: var(--cor-azul-secundaria);
+  border: none;
+  transition: background-color 1s;
+}
+
+.editar-post {
+  color: white;
+  background-color: var(--cor-azul-principal);
+  border: none;
+  transition: background-color 1s;
+}
+
+.editar-post:hover {
+  background-color: var(--cor-azul-secundaria);
+}
+
+@media screen and (min-width: 728px) {
   .card {
-    width: 90%;
+    max-width: 50%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .card {
+    max-width: 30%;
   }
 }

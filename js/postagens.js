@@ -1,5 +1,5 @@
 const postagensDiv = document.getElementById("postagens");
-const postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
+let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
 const sessao = JSON.parse(localStorage.getItem("sessao"));
 
 function inserirPostagens(postagens) {
@@ -16,6 +16,20 @@ function inserirPostagens(postagens) {
       </div>
     </div>`
   ).join("");
+
+  document.querySelectorAll(".excluir-post").forEach(btn => btn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const idPost = btn.closest(".card").id;
+    excluirPostagem(idPost);
+  }));
+
+  document.querySelectorAll(".editar-post").forEach(btn => btn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const idPost = btn.closest(".card").id;
+    editarPostagem(idPost);
+  }));
 }
 
 function gravidadeTexto(gravidade) {
@@ -34,28 +48,15 @@ function botoes(emailPostagem, emailSessao) {
 }
 
 function excluirPostagem(idPostagem) {
-  const novosPosts = postagens.filter(post => post.id != idPostagem);
-  localStorage.setItem("postagens", JSON.stringify(novosPosts));
-  inserirPostagens(novosPosts);
-}
-
-function editarPostagem(idPostagem, tipo) {
-  localStorage.setItem("postagemEditar", idPostagem);
-  window.location.href = `../paginas/${tipo}.html`;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
+  postagens = postagens.filter(post => post.id != idPostagem);
+  localStorage.setItem("postagens", JSON.stringify(postagens));
   inserirPostagens(postagens);
-  const btnExcluirPostagem = document.querySelectorAll(".excluir-post");
-  const btnEditarPostagem = document.querySelectorAll(".editar-post");
+}
 
-  btnExcluirPostagem.forEach(btn => btn.addEventListener("click", () => {
-    const idPost = btn.parentElement.parentElement.parentElement.id;
-    excluirPostagem(idPost);
-  }));
-  btnEditarPostagem.forEach(btn => btn.addEventListener("click", () => {
-    const idPost = btn.closest(".card").id;
-    const tipoPost = btn.closest(".card").getAttribute("tipo");
-    editarPostagem(idPost, tipoPost);
-  }))
-});
+function editarPostagem(idPostagem) {
+  const tipo = postagens.find(post => post.id == idPostagem).tipo.toLowerCase();
+  localStorage.setItem("postagemEditar", idPostagem);
+  window.location.href = `./${tipo}.html`;
+}
+
+inserirPostagens(postagens);

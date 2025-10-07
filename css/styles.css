@@ -3,52 +3,17 @@
   --cor-azul-secundaria: #4A79AA;
 }
 
-.card {
-  box-shadow: 5px 10px 10px 4px rgba(26, 0, 75, 0.548);
-  transition: transform 0.4s;
-}
-
-.card:hover {
-  cursor: pointer;
-  transform: scale(0.99);
-}
-
 .navbar {
   background-color: var(--cor-azul-principal);
 }
 
-.editar-post {
-  background-color: var(--cor-azul-secundaria);
-  border: none;
-  transition: background-color 1s;
+.navbar-brand {
+  font-weight: bold;
 }
 
-#criar-alerta {
-  background-color: var(--cor-azul-secundaria);
-  border: none;
-}
-
-#criar-alerta:hover {
-  background-color: var(--cor-azul-principal);
-}
-
-.editar-post {
-  color: white;
-  background-color: var(--cor-azul-principal);
-  border: none;
-  transition: background-color 1s;
-}
-
-.editar-post:hover {
-  background-color: var(--cor-azul-secundaria);
-}
-
-.navbar-brand{
-  font-size: 5em;
-}
-
-@media screen and (max-width: 728px) {
+@media screen and (min-width: 728px) {
   .navbar-brand {
-    font-size: 14px;
+    font-size: 4em;
   }
 }
+

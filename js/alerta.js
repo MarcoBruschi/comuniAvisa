@@ -6,7 +6,7 @@ const localizacao = document.getElementById("localizacao");
 const imagem = document.getElementById("imagem");
 const gravidade = document.getElementById("gravidade");
 const idValor = document.getElementById("id");
-const postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
+let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
 idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
 
 const tituloForm = document.querySelector(".titulo-form");
@@ -41,7 +41,7 @@ btnCriarAlerta.addEventListener("click", (event) => {
   });
 
   if (!idValor.value) {
-    if (titulo.value && sessao && localizacao.value && gravidade.value) {
+    if (titulo.value && sessao && localizacao.value && (gravidade.value !== "Gravidade do Alerta")) {
       const alerta = {
         id: Date.now(),
         titulo: titulo.value,
@@ -58,14 +58,21 @@ btnCriarAlerta.addEventListener("click", (event) => {
       localStorage.setItem("postagens", JSON.stringify(postagens));
       const modal = document.getElementById("exampleModal");
       const modalBootstrap = new bootstrap.Modal(modal, {backdrop : false});
-      modalBootstrap.toggle();
-      const tempo = setInterval(() => {
-        modalBootstrap.toggle();
-        window.location.href = "./home.html";
+
+      titulo.value = "";
+      descricao.value = "";
+      localizacao.value = "";
+      imagem.value = "";
+      gravidade.value = "Gravidade do Alerta";
+      
+      modalBootstrap.show();
+      setTimeout(() => {
+        modalBootstrap.hide();
       }, 1500);
     }
   } else {
-    if (titulo.value && sessao && localizacao.value && gravidade.value) {
+    if (titulo.value && sessao && localizacao.value && (gravidade.value !== "Gravidade do Alerta")) {
+
       const alerta = postagens.find(post => post.id == idValor.value);
       alerta.titulo = titulo.value;
       alerta.descricao = descricao.value;

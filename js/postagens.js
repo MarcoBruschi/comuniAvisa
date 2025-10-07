@@ -4,8 +4,8 @@ const sessao = JSON.parse(localStorage.getItem("sessao"));
 
 function inserirPostagens(postagens) {
   postagensDiv.innerHTML = postagens.map(postagem =>
-   `<div id=${postagem.id} class="card" tipo=${postagem.tipo} style="width: 18rem; max-height:40rem">
-      <img src="${postagem.imagem}" class="card-img-top">
+   `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
+      <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
       <div class="card-body">
         <h5 class="card-title">${postagem.titulo} : <strong class="text-warning">${postagem.tipo}</strong></h5>
         <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>

@@ -14,6 +14,7 @@ if (localStorage.getItem("sessao")) {
 const tituloForm = document.querySelector(".titulo-login");
 const nomeCampo = document.querySelector(".nome-cadastro");
 
+
 const erroCampo = document.querySelector(".erroCampo");
 
 let estado = "login";
@@ -41,6 +42,7 @@ function mudarEstado() {
 }
 
 btnEntrar.addEventListener("click", (event) => {
+
   event.preventDefault();
 
   const contaUsuario = contas.find(conta => conta.email === email.value);
@@ -58,7 +60,7 @@ btnEntrar.addEventListener("click", (event) => {
           localStorage.setItem("sessao", JSON.stringify(sessao));
           window.location.href = "./paginas/home.html";
         } else {
-          erroCampo.textContent = "Senha incorreta";
+          erroCampo.textContent = "E-mail ou senha incorretos";
         }
       } else {
         erroCampo.textContent = "Conta inexistente";
@@ -89,6 +91,7 @@ btnEntrar.addEventListener("click", (event) => {
 });
 
 btnCriarConta.addEventListener("click", (event) => {
+
   event.preventDefault();
 
   erroCampo.textContent = "";

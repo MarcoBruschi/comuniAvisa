@@ -22,8 +22,7 @@ if (idValor.value) {
   btnCriarAlerta.textContent = "Criar Alerta";
 }
 
-btnCriarAlerta.addEventListener("click", (event) => {
-  event.preventDefault();
+btnCriarAlerta.addEventListener("click", () => {
 
   const data = new Date(Date.now());
   const dataFormatada = data.toLocaleString('pt-BR', {

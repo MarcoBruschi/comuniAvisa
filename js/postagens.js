@@ -3,19 +3,7 @@ let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getI
 const sessao = JSON.parse(localStorage.getItem("sessao"));
 
 function inserirPostagens(postagens) {
-  postagensDiv.innerHTML = postagens.map(postagem =>
-    `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
-      <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
-      <div class="card-body">
-        <h5 class="card-title">${postagem.titulo} : <strong class="${postagem.gravidade ? gravidadeTexto(postagem.gravidade) : ""}">${postagem.tipo}</strong></h5>
-        <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
-        <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
-        <p class="card-text"><strong>${postagem.localizacao ? postagem.localizacao : ""}</strong></p>
-        <p class="card-text">${postagem.data}</p>
-        ${botoes(postagem.usuario, sessao.email)}
-      </div>
-    </div>`
-  ).join("");
+  postagensDiv.innerHTML = postagens.map(postagem => cards(postagem.tipo.toLowerCase(), postagem)).join("");
 
   document.querySelectorAll(".excluir-post").forEach(btn => btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -60,3 +48,35 @@ function editarPostagem(idPostagem) {
 }
 
 inserirPostagens(postagens);
+
+
+function cards(tipo, postagem) {
+  switch (tipo) {
+    case "alerta":
+      return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
+        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
+        <div class="card-body">
+          <h5 class="card-title">${postagem.titulo} : <strong class="${postagem.gravidade ? gravidadeTexto(postagem.gravidade) : ""}">${postagem.tipo}</strong></h5>
+          <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
+          <p class="card-text"><strong>${postagem.localizacao ? postagem.localizacao : ""}</strong></p>
+          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
+          <p class="card-text">${postagem.data}</p>
+          ${botoes(postagem.usuario, sessao.email)}
+        </div>
+      </div>`;
+
+    case "workshop":
+      return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
+        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
+        <div class="card-body">
+          <h3>${postagem.tipo} : ${postagem.tema}</h3>
+          <h5 class="card-title">${postagem.titulo}</h5>
+          <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
+          <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} | ${postagem.dia} às ${postagem.horario}</strong></p>
+          <p class="card-text">Destinado para <strong>${postagem.publico}</strong></p>
+          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
+          ${botoes(postagem.usuario, sessao.email)}
+        </div>
+      </div>`;
+  }
+}

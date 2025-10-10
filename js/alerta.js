@@ -41,7 +41,7 @@ btnCriarAlerta.addEventListener("click", (event) => {
   });
 
   if (!idValor.value) {
-    if (titulo.value && sessao && localizacao.value && (gravidade.value !== "Gravidade do Alerta")) {
+    if (validacao()) {
       const alerta = {
         id: Date.now(),
         titulo: titulo.value,
@@ -71,10 +71,11 @@ btnCriarAlerta.addEventListener("click", (event) => {
       }, 1500);
     }
   } else {
-    if (titulo.value && sessao && localizacao.value && (gravidade.value !== "Gravidade do Alerta")) {
+    if (validacao()) {
 
       const alerta = postagens.find(post => post.id == idValor.value);
       alerta.titulo = titulo.value;
+      alerta.localizacao = localizacao.value;
       alerta.descricao = descricao.value;
       alerta.imagem = imagem.value;
       alerta.gravidade = gravidade.value;
@@ -93,4 +94,9 @@ function alertaCriado(pagina) {
     window.location.href = pagina;
   }, 2000);
   clearInterval(tempo);
+}
+
+function validacao() {
+  if (titulo.value && sessao && localizacao.value && (gravidade.value !== "Gravidade do Alerta")) return true;
+  return false;
 }

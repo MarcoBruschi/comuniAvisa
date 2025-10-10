@@ -6,6 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!sessao) {
     window.location.href = "../index.html";
   }
-  document.getElementById("sessao-nome").innerHTML = `Olá <strong>${sessao.nome}</strong><br>Deseja ver <a href="../paginas/postagens.html">as postagens ativas</a>?`;
+  document.getElementById("sessao-nome").innerHTML = `Bem vindo ao <strong class="text-primary">ComuniAvisa</strong> <strong>${sessao.nome}</strong>👋<br><br>Deseja ver <a href="../paginas/postagens.html">as postagens ativas</a>?`;
 });
 

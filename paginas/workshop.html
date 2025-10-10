@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +9,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../css/alertas.css">
+  <link rel="stylesheet" href="../css/workshop.css">
 </head>
-
 <body>
-  <header>
+    <header>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid w-100 d-flex flex-md-row justify-content-center align-item-center gap-5 p-3">
         <a class="navbar-brand text-light m-0 p-0 " href="./home.html">ComuniAvisa</a>
@@ -34,7 +32,7 @@
               <a class="nav-link text-light fs-5" href="#">Monitoria</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light fs-5" href="./workshop.html">Workshop</a>
+              <a class="nav-link text-light fs-5" href="#">Workshop</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-light fs-5" href="#">Conteúdo Educativo</a>
@@ -44,55 +42,60 @@
       </div>
     </nav>
   </header>
-  <main class="alerta-main mt-5 w-100 d-flex justify-content-center align-item-center">
+  <main class="workshop mt-5 w-100 d-flex justify-content-center align-item-center">
     <div class="modal" tabindex="-1" id="exampleModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Alerta Criado!</h5>
+            <h5 class="modal-title">Workshop Criado!</h5>
           </div>
           <div class="modal-body">
-            <p>Seu Alerta foi criado com sucesso!</p>
+            <p>Seu Workshop foi criado com sucesso!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <form class="p-3 bg-dark text-light rounded form-alerta mt-5">
+    <form class="p-3 bg-dark text-light rounded form-workshop mt-5">
       <input type="text" id="id" style="display: none;">
-      <h2 class="text-center titulo-form">Criar alerta</h2>
+      <h2 class="text-center titulo-form">Criar Workshop</h2>
       <div class="mb-3 d-flex flex-column">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" required>
+        <label for="nome">Nome do Workshop</label>
+        <input type="text" id="nome" required>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="descricao">Descrição</label>
-        <textarea style="resize: none;" type="text" id="descricao"></textarea>
-        <span>(OPCIONAL)</span>
+        <label for="conteudo">Conteúdo</label>
+        <textarea style="resize: none;" type="text" id="conteudo" required></textarea>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="localizacao">Localização</label>
-        <textarea style="resize: none;" type="text" id="localizacao" required></textarea>
+        <label for="local">Local</label>
+        <input style="resize: none;" type="text" id="local" required>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="imagem">Imagem</label>
-        <input type="text" id="imagem">
-        <span>(OPCIONAL)</span>
+        <label for="horario">Horário</label>
+        <input type="text" id="horario" required>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <select class="form-select" aria-label="Default select example" id="gravidade" required>
-          <option selected>Gravidade do Alerta</option>
-          <option value="alto" class="text-danger">Alto</option>
-          <option value="medio" class="text-warning">Médio</option>
-          <option value="baixo" class="text-primary">Baixo</option>
+        <select class="form-select" aria-label="Default select example" id="tema" required>
+          <option selected>Tema</option>
+          <option value="alto" class="text-danger">Meio Ambiente</option>
+          <option value="medio" class="text-warning">Tecnologia</option>
+          <option value="baixo" class="text-primary">Faça Você Mesmo</option>
+        </select>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <select class="form-select" aria-label="Default select example" id="publico" required>
+          <option selected>Público</option>
+          <option value="alto" class="text-danger">Crianças</option>
+          <option value="medio" class="text-warning">Adultos</option>
+          <option value="baixo" class="text-primary">Idosos</option>
         </select>
       </div>
       <div class="mb-3 text-center">
-        <button type="submit" id="criar-alerta" class="btn btn-primary text-center">Criar Alerta</button>
+        <button type="submit" id="criar-workshop" class="btn btn-primary text-center">Criar Workshop</button>
       </div>
     </form>
   </main>
-  <script src="../js/alerta.js"></script>
+  <script src="../js/workshop.js"></script>
 </body>
-
 </html>

@@ -23,6 +23,23 @@ body {
   flex-direction: column;
 }
 
+.sessao-box {
+  background: #d6d6d6;
+  border-radius: 16px;
+  padding: 32px;
+  display: inline-block;
+}
+
+.sessao-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 50px;
+  transform: translateX(-8%);
+}
+
+
 footer {
   background-color: var(--cor-azul-principal); 
   color: white;

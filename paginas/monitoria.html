@@ -11,6 +11,7 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../css/alertas.css">
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
@@ -31,10 +32,10 @@
               <a class="nav-link text-light fs-5" href="#">Serviço</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light fs-5" href="#">Monitoria</a>
+              <a class="nav-link text-light fs-5" href="./monitoria.html">Monitoria</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light fs-5" href="#">Workshop</a>
+              <a class="nav-link text-light fs-5" href="./workshop.html">Workshop</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-light fs-5" href="#">Conteúdo Educativo</a>
@@ -47,7 +48,7 @@
       </div>
     </nav>
   </header>
-  <main class="alerta-main mt-5 w-100 d-flex justify-content-center align-item-center">
+  <main class="alerta-main mt-2 w-100 d-flex justify-content-center align-item-center">
     <div class="modal" tabindex="-1" id="exampleModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -85,6 +86,14 @@
         <textarea style="resize: none;" type="text" id="localizacao"></textarea>
       </div>
       <div class="mb-3 d-flex flex-column">
+        <label for="data">Data</label>
+        <input type="date" id="data" required>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <label for="horario">Horário</label>
+        <input type="time" id="horario" required>
+      </div>
+      <div class="mb-3 d-flex flex-column">
         <label for="imagem">Imagem</label>
         <input type="text" id="imagem">
         <span>(OPCIONAL)</span>
@@ -94,7 +103,12 @@
       </div>
     </form>
   </main>
+  <br>
+  <br>
   <script src="../js/alerta.js"></script>
 </body>
+<footer>
+    <p class="text-center">© 2025 ComuniAvisa. Todos os direitos reservados.</p>
+</footer>
 
 </html>

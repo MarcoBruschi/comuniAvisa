@@ -52,7 +52,7 @@ btnPostarServico.addEventListener("click", (event) => {
         usuario: sessao.email,
         nomeUsuario: sessao.nome,
         data: dataFormatada,
-        tipo: "Serviço"
+        tipo: "servico"
       }
       postagens.push(servico);
       localStorage.setItem("postagens", JSON.stringify(postagens));

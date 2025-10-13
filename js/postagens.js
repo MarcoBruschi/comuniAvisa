@@ -91,5 +91,19 @@ function cards(tipo, postagem) {
           ${botoes(postagem.usuario, sessao.email)}
         </div>
       </div>`;
+
+      case "servico":
+      return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
+        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
+        <div class="card-body">
+          <h3><b>Serviço:</b> ${postagem.titulo}</h3>
+          <p class="card-text">Descrição: ${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
+          <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} </strong></p>
+          <p class="card-text">Tempo médio: <strong>${postagem.tempo}</strong></p>
+          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
+          <p class="card-text">${postagem.data}</p> 
+          ${botoes(postagem.usuario, sessao.email)}
+        </div>
+      </div>`;
   }
 }

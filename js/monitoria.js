@@ -90,10 +90,10 @@ btnCriarMonitoria.addEventListener("click", (event) => {
       monitoria.tipo = tipoInput.value;
       monitoria.data = dataInput.value;
       monitoria.horario = horarioInput.value;
-
+      console.log(JSON.parse(localStorage.getItem("postagens")));
       localStorage.setItem("postagens", JSON.stringify(postagens));
       localStorage.removeItem("postagemEditar");
-      window.location.href = "../paginas/postagens.html";
+      console.log(JSON.parse(localStorage.getItem("postagens")));
     }
   }
 

@@ -93,3 +93,9 @@ function cards(tipo, postagem) {
       </div>`;
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (postagens.length > 0) {
+    inserirPostagens(postagens);
+  }
+});

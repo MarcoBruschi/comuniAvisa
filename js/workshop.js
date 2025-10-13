@@ -70,8 +70,8 @@ btnCriarWorkshop.addEventListener("click", (event) => {
       localInput.value = "";
       horarioInput.value = "";
       dataInput.value = "";
-      temaInput.value = "Tema";
-      publicoInput.value = "Público";
+      temaInput.value = "";
+      publicoInput.value = "";
 
       modalBootstrap.show();
       setTimeout(() => {
@@ -97,7 +97,7 @@ btnCriarWorkshop.addEventListener("click", (event) => {
 });
 
 function validacao() {
-  if (nomeInput.value && conteudoInput.value && localInput.value && horarioInput.value && dataInput.value && (temaInput.value !== "Tema" && publicoInput.value !== "Público")) {
+  if (nomeInput.value && conteudoInput.value && localInput.value && horarioInput.value && dataInput.value && (temaInput.value !== "" && publicoInput.value !== "")) {
     return true;
   } 
   return false;

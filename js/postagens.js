@@ -2,6 +2,10 @@ const postagensDiv = document.getElementById("postagens");
 let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
 const sessao = JSON.parse(localStorage.getItem("sessao"));
 
+if (localStorage.getItem("postagemEditar")) {
+  localStorage.removeItem("postagemEditar");
+}
+
 function inserirPostagens(postagens) {
   postagensDiv.innerHTML = postagens.map(postagem => cards(postagem.tipo.toLowerCase(), postagem)).join("");
 
@@ -84,9 +88,9 @@ function cards(tipo, postagem) {
         <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
         <div class="card-body">
           <h3><b>${postagem.tipo}:</b> ${postagem.titulo}</h3>
-          <p class="card-text">Descrição: ${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
+          ${postagem.descricao ? `<p class="card-text">Descrição: ${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>` : "" }
           <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} | ${postagem.dia} às ${postagem.horario}</strong></p>
-          <p class="card-text">Tipo de Monitoria: <strong>${postagem.tipo}</strong></p>
+          <p class="card-text">Tipo de Monitoria: <strong>${postagem.tipoMonitoria}</strong></p>
           <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
           ${botoes(postagem.usuario, sessao.email)}
         </div>

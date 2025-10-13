@@ -63,7 +63,7 @@ btnCriarAlerta.addEventListener("click", (event) => {
       descricao.value = "";
       localizacao.value = "";
       imagem.value = "";
-      gravidade.value = "Gravidade do Alerta";
+      gravidade.value = "";
       
       modalBootstrap.show();
       setTimeout(() => {
@@ -97,6 +97,6 @@ function alertaCriado(pagina) {
 }
 
 function validacao() {
-  if (titulo.value && sessao && localizacao.value && (gravidade.value !== "Gravidade do Alerta")) return true;
+  if (titulo.value && sessao && localizacao.value && (gravidade.value !== "")) return true;
   return false;
 }

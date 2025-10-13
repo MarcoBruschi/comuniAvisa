@@ -64,7 +64,7 @@ btnPostarServico.addEventListener("click", (event) => {
       descricao.value = "";
       localizacao.value = "";
       imagem.value = "";
-      tempo.value = "Tempo médio de serviço";
+      tempo.value = "";
 
       modalBootstrap.show();
       setTimeout(() => {
@@ -88,6 +88,6 @@ btnPostarServico.addEventListener("click", (event) => {
 });
 
 function validacao() {
-  if (titulo.value && sessao && localizacao.value && (tempo.value !== "Tempo médio de serviço")) return true;
+  if (titulo.value && sessao && localizacao.value && (tempo.value !== "")) return true;
   return false;
 }

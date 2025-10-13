@@ -1,6 +1,5 @@
 let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
 const sessao = JSON.parse(localStorage.getItem("sessao"));
-const btnCriarAlerta = document.getElementById("criar-alerta");
 const titulo = document.getElementById("titulo");
 const descricao = document.getElementById("descricao");
 const tipoInput = document.getElementById("tipo");
@@ -19,7 +18,7 @@ if (idValor.value) {
   descricao.value = post.descricao;
   localizacao.value = post.localizacao;
   imagem.value = post.imagem;
-  tipoInput.value = post.tipo;
+  tipoInput.value = post.tipoMonitoria;
   dataInput.value = post.dia;
   horarioInput.value = post.horario;
 
@@ -53,7 +52,7 @@ btnCriarMonitoria.addEventListener("click", (event) => {
         localizacao: localizacao.value,
         imagem: imagem.value,
         horario: horarioInput.value,
-        tipo: tipoInput.value,
+        tipoMonitoria: tipoInput.value,
         dia: dataInput.value,
         usuario: sessao.email,
         nomeUsuario: sessao.nome,
@@ -69,12 +68,11 @@ btnCriarMonitoria.addEventListener("click", (event) => {
       descricao.value = "";
       localizacao.value = "";
       imagem.value = "";
-        tipoInput.value = "Tipo de Monitoria";
-        dataInput.value = "";
-        horarioInput.value = "";
-
-      
+      tipoInput.value = "";
+      dataInput.value = "";
+      horarioInput.value = "";
       modalBootstrap.show();
+      
       setTimeout(() => {
         modalBootstrap.hide();
       }, 1500);
@@ -87,10 +85,10 @@ btnCriarMonitoria.addEventListener("click", (event) => {
       monitoria.localizacao = localizacao.value;
       monitoria.descricao = descricao.value;
       monitoria.imagem = imagem.value;
-      monitoria.tipo = tipoInput.value;
+      monitoria.tipoMonitoria = tipoInput.value;
       monitoria.data = dataInput.value;
       monitoria.horario = horarioInput.value;
-
+      console.log(JSON.parse(localStorage.getItem("postagens")));
       localStorage.setItem("postagens", JSON.stringify(postagens));
       localStorage.removeItem("postagemEditar");
       window.location.href = "../paginas/postagens.html";
@@ -100,6 +98,6 @@ btnCriarMonitoria.addEventListener("click", (event) => {
 });
 
 function validacao() {
-  if (titulo.value && localizacao.value && horarioInput.value && dataInput.value && (tipoInput.value !== "Tipo da Monitoria")) return true;
+  if (titulo.value && localizacao.value && horarioInput.value && dataInput.value && (tipoInput.value !== "")) return true;
   return false;
 }

@@ -24,13 +24,13 @@ if (idValor.value) {
   horarioInput.value = post.horario;
 
   tituloForm.textContent = "Editar Monitoria";
-  btnCriarAlerta.textContent = "Editar Monitoria";
+  btnCriarMonitoria.textContent = "Editar Monitoria";
 } else {
   tituloForm.textContent = "Criar Monitoria";
-  btnCriarAlerta.textContent = "Criar Monitoria";
+  btnCriarMonitoria.textContent = "Criar Monitoria";
 }
 
-btnCriarAlerta.addEventListener("click", (event) => {
+btnCriarMonitoria.addEventListener("click", (event) => {
 
   event.preventDefault();
 
@@ -46,7 +46,7 @@ btnCriarAlerta.addEventListener("click", (event) => {
 
   if (!idValor.value) {
     if (validacao()) {
-      const alerta = {
+      const monitoria = {
         id: Date.now(),
         titulo: titulo.value,
         descricao: descricao.value,
@@ -60,7 +60,7 @@ btnCriarAlerta.addEventListener("click", (event) => {
         data: dataFormatada,
         tipo: "Monitoria"
       }
-      postagens.push(alerta);
+      postagens.push(monitoria);
       localStorage.setItem("postagens", JSON.stringify(postagens));
       const modal = document.getElementById("exampleModal");
       const modalBootstrap = new bootstrap.Modal(modal, {backdrop : false});
@@ -98,14 +98,6 @@ btnCriarAlerta.addEventListener("click", (event) => {
   }
 
 });
-
-function monitoriaCriada(pagina) {
-  document.getElementById("exampleModal").setAttribute("data-bs-toggle", "modal");
-  const tempo = setInterval(() => {
-    window.location.href = pagina;
-  }, 2000);
-  clearInterval(tempo);
-}
 
 function validacao() {
   if (titulo.value && localizacao.value && horarioInput.value && dataInput.value && (tipoInput.value !== "Tipo da Monitoria")) return true;

@@ -60,7 +60,7 @@ function cards(tipo, postagem) {
       return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
         <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
         <div class="card-body">
-          <h5 class="card-title">${postagem.titulo} : <strong class="${postagem.gravidade ? gravidadeTexto(postagem.gravidade) : ""}">${postagem.tipo}</strong></h5>
+          <h5 class="card-title"><strong class="${postagem.gravidade ? gravidadeTexto(postagem.gravidade) : ""}">${postagem.tipo}</strong> : <strong>${postagem.titulo}</strong></h5>
           <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
           <p class="card-text"><strong>${postagem.localizacao ? postagem.localizacao : ""}</strong></p>
           <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
@@ -73,7 +73,7 @@ function cards(tipo, postagem) {
       return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
         <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
         <div class="card-body">
-          <h3>${postagem.tipo} : ${postagem.tema}</h3>
+          <h3><strong>${postagem.tipo}</strong> : ${postagem.tema}</h3>
           <h5 class="card-title">${postagem.titulo}</h5>
           <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
           <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} | ${postagem.dia} às ${postagem.horario}</strong></p>

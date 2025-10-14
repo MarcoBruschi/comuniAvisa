@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +10,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../css/alertas.css">
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/conteudo.css">
 </head>
-
 <body>
-  <header>
+    <header>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid w-100 d-flex flex-md-row justify-content-center align-item-center gap-5 p-3">
         <a class="navbar-brand text-light m-0 p-0 " href="./home.html">ComuniAvisa</a>
@@ -26,10 +24,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav d-flex gap-4 align-items-center">
             <li class="nav-item">
-              <a class="nav-link text-light fs-5" href="./servico.html">Serviço</a>
+              <a class="nav-link text-light fs-5" href="./alerta.html">Alerta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light fs-5" href="./alerta.html">Alerta</a>
+              <a class="nav-link text-light fs-5" href="./servico.html">Serviço</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-light fs-5" href="./monitoria.html">Monitoria</a>
@@ -48,57 +46,57 @@
       </div>
     </nav>
   </header>
-  <main class="alerta-main mt-5 w-100 d-flex justify-content-center align-item-center">
+  <main class="conteudo mt-5 w-100 d-flex justify-content-center align-item-center">
     <div class="modal" tabindex="-1" id="exampleModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Serviço criado!</h5>
+            <h5 class="modal-title">Conteúdo Criado!</h5>
           </div>
           <div class="modal-body">
-            <p>Seu Serviço foi postado com sucesso!</p>
+            <p>Seu Conteúdo foi criado com sucesso!</p>
           </div>
         </div>
       </div>
     </div>
-    <form class="p-3 bg-dark text-light rounded form-alerta mt-5">
+    <form class="p-3 bg-dark text-light rounded form-conteudo mt-5">
       <input type="text" id="id" style="display: none;">
-      <h2 class="text-center titulo-form">Postar serviço</h2>
+      <h2 class="text-center titulo-form">Criar Conteúdo Educativo</h2>
       <div class="mb-3 d-flex flex-column">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" required>
+        <label for="nome">Nome do Conteúdo</label>
+        <input type="text" id="nome" required>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="descricao">Descrição</label>
-        <textarea style="resize: none;" type="text" id="descricao"></textarea>
-        <span>(OPCIONAL)</span>
+        <label for="conteudo">Qual o Conteúdo</label>
+        <textarea style="resize: none;" type="text" id="conteudo" required></textarea>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="localizacao">Localização</label>
-        <textarea style="resize: none;" type="text" id="localizacao" required></textarea>
+        <label for="link">Link do Conteúdo</label>
+         <input type="url" id="link" placeholder="Ex: https://youtube.com/...">
+        <span>(Opcional)</span>
+      </div>
+
+      <div class="mb-3 d-flex flex-column">
+        <select class="form-select" aria-label="Default select example" id="tema" required>
+          <option selected>Tema</option>
+          <option value="Meio Ambiente" class="text-danger">Meio Ambiente</option>
+          <option value="Tecnologia" class="text-warning">Tecnologia</option>
+          <option value="Faça você mesmo" class="text-primary">Social</option>
+        </select>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="imagem">Imagem</label>
-        <input type="text" id="imagem">
-        <span>(OPCIONAL)</span>
-      </div>
-      <div class="mb-3 d-flex flex-column">
-        <select class="form-select" aria-label="Default select example" id="tempo" required>
-          <option selected value="">Tempo médio de serviço</option>
-          <option value="alto" class="text-danger">Longo</option>
-          <option value="medio" class="text-warning">Médio</option>
-          <option value="rápido" class="text-primary">Rápido</option>
+        <select class="form-select" aria-label="Default select example" id="publico" required>
+          <option selected>Público Alvo</option>
+          <option value="Crianças" class="text-danger">Crianças</option>
+          <option value="Adultos" class="text-warning">Adultos</option>
+          <option value="Idosos" class="text-primary">Idosos</option>
         </select>
       </div>
       <div class="mb-3 text-center">
-        <button type="submit" id="postar-serviço" class="btn btn-primary text-center">Postar serviço</button>
+        <button type="submit" id="criar-conteudo" class="btn btn-primary text-center">Criar Conteúdo</button>
       </div>
     </form>
   </main>
-  <script src="../js/servico.js"></script>
+  <script src="../js/conteudo.js"></script>
 </body>
-<footer class="mt-5">
-    <p class="text-center">© 2025 ComuniAvisa. Todos os direitos reservados.</p>
-</footer>
-
 </html>

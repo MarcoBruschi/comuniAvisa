@@ -117,9 +117,10 @@ function cards(tipo, postagem) {
         <h3>${postagem.tipo.charAt(0).toUpperCase() + postagem.tipo.slice(1)} : ${postagem.tema}</h3>
         <h5 class="card-title">${postagem.titulo}</h5>
         <p class="card-text">${postagem.descricao.length > 120 ? postagem.descricao.substring(0, 120) + "..." : postagem.descricao}</p>
-        <p class="card-text"><strong>Link: ${postagem.link || ""} | ${postagem.dia || ""} às ${postagem.horario || ""}</strong></p>
+        ${postagem.link ? `<p class="card-text"><strong>Link: <a href="${postagem.link}">clique aqui</a></strong></p>` : ""}
         <p class="card-text">Destinado para <strong>${postagem.publico}</strong></p>
         <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
+        <p class="card-text">${postagem.data}</p>
         ${botoes(postagem.usuario, sessao.email)}
       </div>
     </div>`;

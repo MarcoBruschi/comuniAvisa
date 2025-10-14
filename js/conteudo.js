@@ -9,10 +9,8 @@ const btnCriarConteudo = document.getElementById("criar-conteudo");
 const tituloForm = document.querySelector(".titulo-form");
 const idValor = document.getElementById("id");
 
-
 idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
 
-// Se estiver editando a postagem
 if (idValor.value) {
   const post = postagens.find((post) => post.id == idValor.value);
   nomeInput.value = post.titulo;
@@ -28,7 +26,6 @@ if (idValor.value) {
   btnCriarConteudo.textContent = "Criar Conteúdo";
 }
 
-// Evento de criação/edição de postagem
 btnCriarConteudo.addEventListener("click", (event) => {
   event.preventDefault();
 

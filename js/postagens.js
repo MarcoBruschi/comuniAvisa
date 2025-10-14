@@ -7,7 +7,7 @@ if (localStorage.getItem("postagemEditar")) {
 }
 
 function inserirPostagens(postagens) {
-  postagensDiv.innerHTML = postagens.map(postagem => cards(postagem.tipo.toLowerCase(), postagem)).join("");
+  postagensDiv.innerHTML = `${postagens.length > 0 ? postagens.map(postagem => cards(postagem.tipo.toLowerCase(), postagem)).join("") : "Nenhuma postagem aqui<br>Seja o primeiro a postar!"}`
 
   document.querySelectorAll(".excluir-post").forEach(btn => btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -128,7 +128,5 @@ function cards(tipo, postagem) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (postagens.length > 0) {
-    inserirPostagens(postagens);
-  }
+  inserirPostagens(postagens);
 });

@@ -28,13 +28,15 @@
 
         if($stmt->affected_rows > 0){
             if (isset($_SESSION['usuario'])) {
-                $_SESSION['usuario']['nome'] = $nome;
-                $_SESSION['usuario']['email'] = $email;
-                $_SESSION['usuario']['telefone'] = $telefone;
-                $_SESSION['usuario']['endereco'] = $endereco;
+                $usuario = $_SESSION['usuario'][0];
+                $usuario['nome'] = $nome;
+                $usuario['email'] = $email;
+                $usuario['telefone'] = $telefone;
+                $usuario['endereco'] = $endereco;
                 if ($senha !== '') {
-                    $_SESSION['usuario']['senha'] = $senha;
+                    $usuario['senha'] = $senha;
                 }
+                $_SESSION['usuario'][0] = $usuario;
             }
             $retorno = [
                 'status'    => 'ok',

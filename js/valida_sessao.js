@@ -4,13 +4,11 @@ async function valida_sessao(){
     if(resposta.status == "nok"){
         window.location.href = '../index.html';
     }
-    console.log(resposta);
 }
 
 async function sair() {
     const req = await fetch("../php/cliente_logoff.php");
     if(!req.ok){
-        console.log(req.mensagem);
         return;
     }
     const res = await req.json();

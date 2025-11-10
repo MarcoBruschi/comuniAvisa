@@ -6,13 +6,26 @@
         'data'      => []
     ];
     // Simulando as informações que vem do front
-    $nome = $_POST['nome'];
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
+    $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+    $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
+    $telefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+    $endereco = isset($_POST['endereco']) ? $_POST['endereco'] : '';
+
+    if ($nome === '' || $email === '' || $senha === '' || $telefone === '' || $endereco === '') {
+        $retorno = [
+            'status' => 'nok',
+            'mensagem' => 'Todos os campos são obrigatórios.',
+            'data' => []
+        ];
+        header("Content-type:application/json;charset=utf-8");
+        echo json_encode($retorno);
+        exit;
+    }
 
     // Preparando para inserção no banco de dados
-    $stmt = $conexao->prepare("INSERT INTO usuario(nome, email, senha) VALUES(?, ?, ?)");
-    $stmt->bind_param("sss", $nome, $email, $senha);
+    $stmt = $conexao->prepare("INSERT INTO usuario(nome, email, senha, telefone, data_cadastro, endereco) VALUES(?, ?, ?, ?, NOW(), ?)");
+    $stmt->bind_param("sssss", $nome, $email, $senha, $telefone, $endereco);
     $stmt->execute();
 
     if($stmt->affected_rows > 0){

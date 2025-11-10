@@ -1,24 +1,41 @@
 <?php
+    session_start();
     include_once('conexao.php');
-
     $retorno = [
         'status'    => '',
         'mensagem'  => '',
         'data'      => []
     ];
 
-    if(isset($_GET['id'])){
+    if(isset($_POST['id'])){
         // Simulando as informações que vem do front
         $nome       = $_POST['nome']; // $_POST['nome'];
         $email      = $_POST['email'];
+        $telefone    = $_POST['telefone'];
+        $endereco   = $_POST['endereco'];
         $senha      = $_POST['senha'];
     
         // Preparando para inserção no banco de dados
-        $stmt = $conexao->prepare("UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id = ?");
-        $stmt->bind_param("sssi",$nome, $email, $senha, $_GET['id']);
+        if ($senha === '') {
+            // Se a senha estiver vazia, não a atualize
+            $stmt = $conexao->prepare("UPDATE usuario SET nome = ?, email = ?, telefone = ?, endereco = ? WHERE id = ?");
+            $stmt->bind_param("ssssi", $nome, $email, $telefone, $endereco, $_POST['id']);
+        } else {
+            $stmt = $conexao->prepare("UPDATE usuario SET nome = ?, email = ?, telefone = ?, endereco = ?, senha = ? WHERE id = ?");
+            $stmt->bind_param("sssssi", $nome, $email, $telefone, $endereco, $senha, $_POST['id']);
+        }
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
+            if (isset($_SESSION['usuario'])) {
+                $_SESSION['usuario']['nome'] = $nome;
+                $_SESSION['usuario']['email'] = $email;
+                $_SESSION['usuario']['telefone'] = $telefone;
+                $_SESSION['usuario']['endereco'] = $endereco;
+                if ($senha !== '') {
+                    $_SESSION['usuario']['senha'] = $senha;
+                }
+            }
             $retorno = [
                 'status'    => 'ok',
                 'mensagem'  => 'Registro alterado com sucesso.',
@@ -42,6 +59,5 @@
        
     $conexao->close();
 
-    // Cabeçalho JSON correto com charset
-    header("Content-Type: application/json; charset=utf-8");
+    header("Content-type:application/json;charset:utf-8");
     echo json_encode($retorno);

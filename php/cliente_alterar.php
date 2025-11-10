@@ -1,4 +1,5 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
     session_start();
     include_once('conexao.php');
     $retorno = [

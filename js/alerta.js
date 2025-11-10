@@ -1,91 +1,30 @@
 const btnCriarAlerta = document.getElementById("criar-alerta");
-const sessao = JSON.parse(localStorage.getItem("sessao"));
 const titulo = document.getElementById("titulo");
 const descricao = document.getElementById("descricao");
 const localizacao = document.getElementById("localizacao");
 const imagem = document.getElementById("imagem");
 const gravidade = document.getElementById("gravidade");
 const idValor = document.getElementById("id");
-let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
-idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
-
 const tituloForm = document.querySelector(".titulo-form");
 
-if (idValor.value) {
-  const post = postagens.find(post => post.id == idValor.value);
-  titulo.value = post.titulo;
-  descricao.value = post.descricao;
-  localizacao.value = post.localizacao;
-  imagem.value = post.imagem;
-  gravidade.value = post.gravidade;
+const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+const res = await req.json();
+const user = res.data;
 
-  tituloForm.textContent = "Editar Alerta";
-  btnCriarAlerta.textContent = "Editar Alerta";
-} else {
-  tituloForm.textContent = "Criar Alerta";
-  btnCriarAlerta.textContent = "Criar Alerta";
-}
-
-btnCriarAlerta.addEventListener("click", (event) => {
-
+btnCriarAlerta.addEventListener("click", async (event) => {
   event.preventDefault();
-
-  const data = new Date(Date.now());
-  const dataFormatada = data.toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
+  const fd = new FormData();
+  fd.append("titulo", titulo.value);
+  fd.append("descricao", descricao.value);
+  fd.append("localizacao", localizacao.value);
+  fd.append("endereco_imagem", imagem.value);
+  fd.append("gravidade", gravidade.value);
+  const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_novo.php", {
+    method: 'POST',
+    body: fd
   });
-
-  if (!idValor.value) {
-    if (validacao()) {
-      const alerta = {
-        id: Date.now(),
-        titulo: titulo.value,
-        descricao: descricao.value,
-        localizacao: localizacao.value,
-        imagem: imagem.value,
-        gravidade: gravidade.value,
-        usuario: sessao.email,
-        nomeUsuario: sessao.nome,
-        data: dataFormatada,
-        tipo: "Alerta"
-      }
-      postagens.push(alerta);
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-      const modal = document.getElementById("exampleModal");
-      const modalBootstrap = new bootstrap.Modal(modal, {backdrop : false});
-
-      titulo.value = "";
-      descricao.value = "";
-      localizacao.value = "";
-      imagem.value = "";
-      gravidade.value = "";
-      
-      modalBootstrap.show();
-      setTimeout(() => {
-        modalBootstrap.hide();
-      }, 1500);
-    }
-  } else {
-    if (validacao()) {
-
-      const alerta = postagens.find(post => post.id == idValor.value);
-      alerta.titulo = titulo.value;
-      alerta.localizacao = localizacao.value;
-      alerta.descricao = descricao.value;
-      alerta.imagem = imagem.value;
-      alerta.gravidade = gravidade.value;
-
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-      localStorage.removeItem("postagemEditar");
-      window.location.href = "../paginas/postagens.html";
-    }
-  }
-
+  const res = await req.json();
+  console.log(res);
 });
 
 function alertaCriado(pagina) {
@@ -94,9 +33,4 @@ function alertaCriado(pagina) {
     window.location.href = pagina;
   }, 2000);
   clearInterval(tempo);
-}
-
-function validacao() {
-  if (titulo.value && sessao && localizacao.value && (gravidade.value !== "")) return true;
-  return false;
 }

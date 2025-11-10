@@ -1,16 +1,13 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
     include_once('conexao.php');
-    // Configurando o padrão de retorno em todas
-    // as situações
-    $retorno = [
-        'status'    => '', // ok - nok
-        'mensagem'  => '', // mensagem que envio para o front
-        'data'      => []
-    ];
-
-    $stmt = $conexao->prepare("SELECT * FROM usuario WHERE email = ? AND senha = ?");
-    $stmt->bind_param("ss", $_POST['email'],$_POST['senha']);
+    if(isset($_GET['id'])){
+        // Segunda situação - RECEBENDO O ID por GET
+        $stmt = $conexao->prepare("SELECT * FROM alerta WHERE id = ?");
+        $stmt->bind_param("i",$_GET['id']);
+    }else{
+        // Primeira situação - SEM RECEBER O ID por GET
+        $stmt = $conexao->prepare("SELECT * FROM alerta");
+    }
     
     // Recuperando informações do banco de dados
     // Vou executar a query
@@ -23,11 +20,6 @@
         while($linha = $resultado->fetch_assoc()){
             $tabela[] = $linha;
         }
-
-    session_start();
-    // Guardar os dados do usuário na sessão sob a chave 'usuario'
-    // (valida_sessao.php verifica $_SESSION['usuario'])
-    $_SESSION['usuario'] = $tabela;
 
         $retorno = [
             'status'    => 'ok', // ok - nok

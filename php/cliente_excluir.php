@@ -1,4 +1,5 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
     include_once('conexao.php');
     // Configurando o padrão de retorno em todas
     // as situações

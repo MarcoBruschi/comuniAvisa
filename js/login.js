@@ -1,5 +1,3 @@
-const contas = localStorage.getItem("contas") ? JSON.parse(localStorage.getItem("contas")) : [];
-
 const btnEntrar = document.getElementById("entrar");
 const btnCriarConta = document.getElementById("criar-conta");
 
@@ -9,7 +7,6 @@ const senha = document.getElementById("senha");
 
 const tituloForm = document.querySelector(".titulo-login");
 const nomeCampo = document.querySelector(".nome-cadastro");
-
 
 const erroCampo = document.querySelector(".erroCampo");
 
@@ -37,51 +34,45 @@ function mudarEstado() {
   }
 }
 
-btnEntrar.addEventListener("click", (event) => {
+btnEntrar.addEventListener("click", async (event) => {
 
   event.preventDefault();
-
-  const contaUsuario = contas.find(conta => conta.email === email.value);
-
   erroCampo.textContent = "";
 
   if (estado === "login") {
-    if (email.value && senha.value) {
-      if (contaUsuario) {
-        if (contaUsuario.senha === senha.value) {
-          const sessao = {
-            nome: contaUsuario.nome,
-            email: contaUsuario.email,
-          }
-          localStorage.setItem("sessao", JSON.stringify(sessao));
-          window.location.href = "./paginas/home.html";
-        } else {
-          erroCampo.textContent = "E-mail ou senha incorretos";
-        }
-      } else {
-        erroCampo.textContent = "Conta inexistente";
-      }
-    } else {
-      erroCampo.textContent = "Todos os campos devem ser preenchidos";
+
+    const fd = new FormData();
+    fd.append("nome", nome.value);
+    fd.append("email", email.value);
+    fd.append("senha", senha.value);
+
+
+    const req = await fetch("http://localhost/comuniAvisa/php/cliente_login.php", {
+      method: 'POST',
+      body: fd
+    });
+
+    const res = await req.json();
+    if (res.status === 'ok') {
+      window.location.href = "http://localhost/comuniAvisa/paginas/home.html";
     }
+
   } else {
-    if (!contaUsuario) {
-      if (nome.value && email.value && senha.value) {
-        const conta = {
-          nome: nome.value,
-          email: email.value,
-          senha: senha.value
-        }
 
-        contas.push(conta);
-        localStorage.setItem("contas", JSON.stringify(contas));
+    const fd = new FormData();
+    fd.append("nome", nome.value);
+    fd.append("email", email.value);
+    fd.append("senha", senha.value);
 
-        mudarEstado();
-      } else {
-        erroCampo.textContent = "Todos os campos devem ser preenchidos";
-      }
-    } else {
-      erroCampo.textContent = "Esse e-mail já está cadastrado";
+
+    const req = await fetch("http://localhost/comuniAvisa/php/cliente_novo.php", {
+      method: 'POST',
+      body: fd
+    });
+
+    const res = await req.json();
+    if (res.status === 'ok') {
+      mudarEstado();
     }
   }
 });

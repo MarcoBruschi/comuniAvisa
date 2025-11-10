@@ -12,6 +12,7 @@
     $endereco_imagem = isset($_POST['endereco_imagem']) ? $_POST['endereco_imagem'] : '';
     $gravidade = isset($_POST['gravidade']) ? $_POST['gravidade'] : '';
     $status = isset($_POST['status']) ? $_POST['status'] : 'Não resolvido';
+    $nome_usuario = isset($_SESSION['usuario'][0]) ? $_SESSION['usuario'][0]['nome'] : '';
     $id_usuario = isset($_SESSION['usuario'][0]) ? $_SESSION['usuario'][0]['id'] : '';
 
     if (!$id_usuario) {
@@ -25,7 +26,7 @@
       exit;
     }
 
-    if ($titulo === '' || $localizacao === '' || $gravidade === '') {
+    if ($titulo === '' || $localizacao === '' || $gravidade === '' || $nome_usuario === '') {
         $retorno = [
             'status' => 'nok',
             'mensagem' => 'Todos os campos são obrigatórios.',
@@ -37,8 +38,8 @@
     }
 
     // Preparando para inserção no banco de dados
-    $stmt = $conexao->prepare("INSERT INTO alerta(titulo, descricao, localizacao, endereco_imagem, gravidade, status, data_criacao, id_usuario) VALUES(?, ?, ?, ?, ?, ?, NOW(), ?)");
-    $stmt->bind_param("ssssssi", $titulo, $descricao, $localizacao, $endereco_imagem, $gravidade, $status, $id_usuario);
+    $stmt = $conexao->prepare("INSERT INTO alerta(titulo, descricao, localizacao, gravidade, status, data_criacao, endereco_imagem, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?)");
+    $stmt->bind_param("sssssssi", $titulo, $descricao, $localizacao, $gravidade, $status, $endereco_imagem, $nome_usuario, $id_usuario);
     $stmt->execute();
 
     if($stmt->affected_rows > 0){

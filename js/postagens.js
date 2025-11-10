@@ -1,28 +1,22 @@
 const postagensDiv = document.getElementById("postagens");
-let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
-const sessao = JSON.parse(localStorage.getItem("sessao"));
 
-if (localStorage.getItem("postagemEditar")) {
-  localStorage.removeItem("postagemEditar");
+async function fetchPostagens() {
+  const alertas = await fetch("../php/alerta_get.php");
+  const resAlertas = await alertas.json();
+  const postagens = {
+    alerta: resAlertas.data
+  }
+  return postagens;
 }
 
-function inserirPostagens(postagens) {
-  postagensDiv.innerHTML = `${postagens.length > 0 ? postagens.map(postagem => cards(postagem.tipo.toLowerCase(), postagem)).join("") : "Nenhuma postagem aqui<br>Seja o primeiro a postar!"}`
+async function inserirPostagens() {
+  const p = await fetchPostagens();
 
-  document.querySelectorAll(".excluir-post").forEach(btn => btn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const idPost = btn.closest(".card").id;
-    excluirPostagem(idPost);
-  }));
-
-  document.querySelectorAll(".editar-post").forEach(btn => btn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const idPost = btn.closest(".card").id;
-    editarPostagem(idPost);
-  }));
-}
+  for (const tipo in p) {
+    const cardsHTML = await Promise.all(p[tipo].map(post => cards(tipo, post)));
+    postagensDiv.innerHTML = cardsHTML.join("");
+  }
+};
 
 function gravidadeTexto(gravidade) {
   if (gravidade === "alto") return "text-danger";
@@ -31,102 +25,56 @@ function gravidadeTexto(gravidade) {
   else return "text-dark";
 }
 
-function botoes(emailPostagem, emailSessao) {
-  if (emailPostagem === emailSessao) {
-    return `<div class="text-center"><button class="btn btn-danger excluir-post">Excluir post</button> <button class="btn editar-post">Editar post</button></div>`
-  } else {
-    return ``;
+async function botoesPostagens(idUsuarioPost) {
+  const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const res = await req.json();
+  const user = res.data;
+  if (user.id === Number(idUsuarioPost)) {
+    return `<div class="text-center"><button class="btn btn-danger excluir-post">Excluir post</button> <button class="btn editar-post">Editar post</button></div>`;
   }
+  return "";
 }
 
-function excluirPostagem(idPostagem) {
-  postagens = postagens.filter(post => post.id != idPostagem);
-  localStorage.setItem("postagens", JSON.stringify(postagens));
-  inserirPostagens(postagens);
+async function excluirPost(id) {
+  const req = await fetch("../php/alerta_excluir.php?id="+id, {
+    method: "POST",
+  });
+  const res = await req.json();
+  console.log(res);
 }
 
-function editarPostagem(idPostagem) {
-  const tipo = postagens.find(post => post.id == idPostagem).tipo.toLowerCase();
-  localStorage.setItem("postagemEditar", idPostagem);
-  window.location.href = `./${tipo}.html`;
+async function editarPost(id) {
+  window.location.href = `../paginas/alerta.html?id=${id}`;
 }
 
-inserirPostagens(postagens);
-
-
-function cards(tipo, postagem) {
+async function cards(tipo, postagem) {
   switch (tipo) {
     case "alerta":
       return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
-        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
+        <img src="${postagem.endereco_imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
         <div class="card-body">
-          <h5 class="card-title"><strong class="${postagem.gravidade ? gravidadeTexto(postagem.gravidade) : ""}">${postagem.tipo}</strong> : <strong>${postagem.titulo}</strong></h5>
+          <h5 class="card-title"><strong class="${postagem.gravidade ? gravidadeTexto(postagem.gravidade) : ""}">Alerta</strong> : <strong>${postagem.titulo}</strong></h5>
           <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
           <p class="card-text"><strong>${postagem.localizacao ? postagem.localizacao : ""}</strong></p>
-          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
-          <p class="card-text">${postagem.data}</p>
-          ${botoes(postagem.usuario, sessao.email)}
+          <p class="card-text">Postado por <strong>${postagem.nome_usuario}</strong></p>
+          <p class="card-text">${postagem.data_criacao}</p>
+          ${await botoesPostagens(postagem.id_usuario)}
         </div>
       </div>`;
-
-    case "workshop":
-      return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
-        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
-        <div class="card-body">
-          <h3><strong>${postagem.tipo}</strong> : ${postagem.tema}</h3>
-          <h5 class="card-title">${postagem.titulo}</h5>
-          <p class="card-text">${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
-          <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} | ${postagem.dia} às ${postagem.horario}</strong></p>
-          <p class="card-text">Destinado para <strong>${postagem.publico}</strong></p>
-          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
-          ${botoes(postagem.usuario, sessao.email)}
-        </div>
-      </div>`;
-
-    case "monitoria":
-      return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
-        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
-        <div class="card-body">
-          <h3><b>${postagem.tipo}:</b> ${postagem.titulo}</h3>
-          ${postagem.descricao ? `<p class="card-text">Descrição: ${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>` : "" }
-          <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} | ${postagem.dia} às ${postagem.horario}</strong></p>
-          <p class="card-text">Tipo de Monitoria: <strong>${postagem.tipoMonitoria}</strong></p>
-          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
-          ${botoes(postagem.usuario, sessao.email)}
-        </div>
-      </div>`;
-
-      case "servico":
-      return `<div id=${postagem.id} class="card" tipo=${postagem.tipo}>
-        <img src="${postagem.imagem}" class="card-img-top" alt="${postagem.imagem ? postagem.titulo : ""}">
-        <div class="card-body">
-          <h3><b>Serviço:</b> ${postagem.titulo}</h3>
-          <p class="card-text">Descrição: ${postagem.descricao.length > 120 ? `${postagem.descricao.slice(0, -(postagem.descricao.length - 120))}...` : `${postagem.descricao}`}</p>
-          <p class="card-text"><strong>Local: ${postagem.localizacao ? postagem.localizacao : ""} </strong></p>
-          <p class="card-text">Tempo médio: <strong>${postagem.tempo}</strong></p>
-          <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
-          <p class="card-text">${postagem.data}</p> 
-          ${botoes(postagem.usuario, sessao.email)}
-        </div>
-      </div>`;
-
-      case "conteudo":
-      return `<div id="${postagem.id}" class="card" tipo="${postagem.tipo}">
-        ${postagem.imagem ? `<img src="${postagem.imagem}" class="card-img-top" alt="${postagem.titulo}">` : ""}
-        <div class="card-body">
-        <h3>${postagem.tipo.charAt(0).toUpperCase() + postagem.tipo.slice(1)} : ${postagem.tema}</h3>
-        <h5 class="card-title">${postagem.titulo}</h5>
-        <p class="card-text">${postagem.descricao.length > 120 ? postagem.descricao.substring(0, 120) + "..." : postagem.descricao}</p>
-        ${postagem.link ? `<p class="card-text"><strong>Link: <a href="${postagem.link}">clique aqui</a></strong></p>` : ""}
-        <p class="card-text">Destinado para <strong>${postagem.publico}</strong></p>
-        <p class="card-text">Postado por <strong>${postagem.nomeUsuario}</strong></p>
-        <p class="card-text">${postagem.data}</p>
-        ${botoes(postagem.usuario, sessao.email)}
-      </div>
-    </div>`;
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  inserirPostagens(postagens);
+postagensDiv.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("excluir-post")) {
+    const card = e.target.closest(".card");
+    await excluirPost(card.id);
+    await inserirPostagens();
+  } else if (e.target.classList.contains("editar-post")) {
+    const card = e.target.closest(".card");
+    await editarPost(card.id);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await inserirPostagens();
 });

@@ -44,13 +44,13 @@
     if($stmt->affected_rows > 0){
         $retorno = [
             'status' => 'ok',
-            'mensagem' => 'Conteudo criado com sucesso',
+            'mensagem' => 'Conteúdo criado com sucesso',
             'data' => []
         ];
     }else{
         $retorno = [
             'status' => 'nok',
-            'mensagem' => 'falha ao inserir o Conteudo',
+            'mensagem' => 'falha ao inserir o Conteúdo',
             'data' => []
         ];
     }

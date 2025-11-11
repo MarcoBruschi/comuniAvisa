@@ -46,7 +46,7 @@
     if($stmt->affected_rows > 0){
         $retorno = [
             'status' => 'ok',
-            'mensagem' => 'Monitoria criado com sucesso',
+            'mensagem' => 'Monitoria criada com sucesso',
             'data' => []
         ];
     }else{

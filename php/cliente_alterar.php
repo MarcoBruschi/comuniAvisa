@@ -47,7 +47,7 @@
         }else{
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Não posso alterar um registro.'.json_encode($_GET),
+                'mensagem'  => 'Não posso alterar um registro.',
                 'data'      => []
             ];
         }

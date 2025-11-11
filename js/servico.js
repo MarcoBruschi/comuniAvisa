@@ -61,8 +61,8 @@ btnCriarServico.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o serviço. Tente novamente.";
     }
@@ -93,8 +93,8 @@ btnCriarServico.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/servico.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/servico.html";
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar o serviço. Tente novamente.";
     }

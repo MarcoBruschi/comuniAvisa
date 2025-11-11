@@ -61,8 +61,8 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o alerta. Tente novamente.";
     }
@@ -93,8 +93,8 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/alerta.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/alerta.html";
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar o alerta. Tente novamente.";
     }

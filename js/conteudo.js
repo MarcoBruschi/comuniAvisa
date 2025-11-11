@@ -1,6 +1,6 @@
 const btnCriarConteudo = document.getElementById("criar-conteudo");
 const titulo = document.getElementById("titulo");
-const conteudo = document.getElementById("conteudo");
+const conteudoInput = document.getElementById("conteudo");
 const link = document.getElementById("link");
 const tema = document.getElementById("tema");
 const publico = document.getElementById("publico");
@@ -21,7 +21,7 @@ async function verificarEdicao(id) {
 
   if (conteudo.id_usuario === user.id) {
     titulo.value = conteudo.titulo;
-    conteudo.value = conteudo.conteudo;
+    conteudoInput.value = conteudo.conteudo;
     link.value = conteudo.link;
     tema.value = conteudo.tema;
     publico.value = conteudo.publico;
@@ -39,7 +39,7 @@ btnCriarConteudo.addEventListener("click", async (e) => {
     try {
       const fd = new FormData();
       fd.append("titulo", titulo.value);
-      fd.append("conteudo", conteudo.value);
+      fd.append("conteudo", conteudoInput.value);
       fd.append("link", link.value);
       fd.append("tema", tema.value);
       fd.append("publico", publico.value);
@@ -61,8 +61,8 @@ btnCriarConteudo.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o Conteúdo. Tente novamente.";
     }
@@ -71,7 +71,7 @@ btnCriarConteudo.addEventListener("click", async (e) => {
     try {
       const fd = new FormData();
       fd.append("titulo", titulo.value);
-      fd.append("conteudo", conteudo.value);
+      fd.append("conteudo", conteudoInput.value);
       fd.append("link", link.value);
       fd.append("tema", tema.value);
       fd.append("publico", publico.value);
@@ -92,8 +92,8 @@ btnCriarConteudo.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/conteudo.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/conteudo.html";
     } catch(error) {
       mensagemErro.textContent = "Erro ao criar o Conteúdo. Tente novamente.";
     }

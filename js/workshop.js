@@ -67,10 +67,10 @@ btnCriarWorkshop.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
     } catch (error) {
-      mensagemErro.textContent = "Erro ao alterar o alerta. Tente novamente.";
+      mensagemErro.textContent = "Erro ao alterar o Workshop. Tente novamente.";
     }
 
 
@@ -101,8 +101,8 @@ btnCriarWorkshop.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/workshop.html";
       }, 1500);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/workshop.html";
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar o Workshop. Tente novamente.";
     }

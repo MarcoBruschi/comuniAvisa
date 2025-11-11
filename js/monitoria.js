@@ -66,8 +66,8 @@ btnCriarMonitoria.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-      }, 3000);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+      }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar a monitoria. Tente novamente.";
     }
@@ -100,8 +100,8 @@ btnCriarMonitoria.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-      }, 3000);
-      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/monitoria.html";
+        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/monitoria.html";
+      }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar a monitoria. Tente novamente.";
     }

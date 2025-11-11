@@ -10,8 +10,7 @@
     $descricao = isset($_POST['descricao']) ? $_POST['descricao'] : '';
     $localizacao = isset($_POST['localizacao']) ? $_POST['localizacao'] : '';
     $endereco_imagem = isset($_POST['endereco_imagem']) ? $_POST['endereco_imagem'] : '';
-    $gravidade = isset($_POST['gravidade']) ? $_POST['gravidade'] : '';
-    $status = isset($_POST['status']) ? $_POST['status'] : 'Não resolvido';
+    $tempo_servico = isset($_POST['tempo_servico']) ? $_POST['tempo_servico'] : '';
     $nome_usuario = isset($_SESSION['usuario'][0]) ? $_SESSION['usuario'][0]['nome'] : '';
     $id_usuario = isset($_SESSION['usuario'][0]) ? $_SESSION['usuario'][0]['id'] : '';
 
@@ -26,7 +25,7 @@
       exit;
     }
 
-    if ($titulo === '' || $localizacao === '' || $gravidade === '') {
+    if ($titulo === '' || $localizacao === '' || $tempo_servico === '') {
         $retorno = [
             'status' => 'nok',
             'mensagem' => 'Todos os campos são obrigatórios.',
@@ -38,20 +37,20 @@
     }
 
     // Preparando para inserção no banco de dados
-    $stmt = $conexao->prepare("INSERT INTO alerta(titulo, descricao, localizacao, gravidade, status, data_criacao, endereco_imagem, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?)");
-    $stmt->bind_param("sssssssi", $titulo, $descricao, $localizacao, $gravidade, $status, $endereco_imagem, $nome_usuario, $id_usuario);
+    $stmt = $conexao->prepare("INSERT INTO servico(titulo, descricao, localizacao, tempo_servico, data_criacao, endereco_imagem, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, NOW(), ?, ?, ?)");
+    $stmt->bind_param("ssssssi", $titulo, $descricao, $localizacao, $tempo_servico, $endereco_imagem, $nome_usuario, $id_usuario);
     $stmt->execute();
 
     if($stmt->affected_rows > 0){
         $retorno = [
             'status' => 'ok',
-            'mensagem' => 'Alerta criado com sucesso',
+            'mensagem' => 'Serviço criado com sucesso',
             'data' => []
         ];
     }else{
         $retorno = [
             'status' => 'nok',
-            'mensagem' => 'falha ao inserir o Alerta',
+            'mensagem' => 'falha ao inserir o Serviço',
             'data' => []
         ];
     }

@@ -1,103 +1,115 @@
-let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
-const sessao = JSON.parse(localStorage.getItem("sessao"));
+const btnCriarMonitoria = document.getElementById("criar-monitoria");
 const titulo = document.getElementById("titulo");
 const descricao = document.getElementById("descricao");
-const tipoInput = document.getElementById("tipo");
+const tipo = document.getElementById("tipo");
 const localizacao = document.getElementById("localizacao");
-const dataInput = document.getElementById("data");
-const horarioInput = document.getElementById("horario");
 const imagem = document.getElementById("imagem");
-const btnCriarMonitoria = document.getElementById("criar-monitoria");
+
 const tituloForm = document.querySelector(".titulo-form");
-const idValor = document.getElementById("id");
-idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
+const mensagemErro = document.getElementById("mensagemErro");
 
-if (idValor.value) {
-  const post = postagens.find(post => post.id == idValor.value);
-  titulo.value = post.titulo;
-  descricao.value = post.descricao;
-  localizacao.value = post.localizacao;
-  imagem.value = post.imagem;
-  tipoInput.value = post.tipoMonitoria;
-  dataInput.value = post.dia;
-  horarioInput.value = post.horario;
+const params = new URLSearchParams(window.location.search);
+const idPost = params.get("id");
 
-  tituloForm.textContent = "Editar Monitoria";
-  btnCriarMonitoria.textContent = "Editar Monitoria";
-} else {
-  tituloForm.textContent = "Criar Monitoria";
-  btnCriarMonitoria.textContent = "Criar Monitoria";
+async function verificarEdicao(id) {
+  const reqMonitoria = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_get.php?id="+id);
+  const resMonitoria = await reqMonitoria.json();
+  const monitoria = resMonitoria.data[0];
+
+  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const resUser = await reqUser.json();
+  const user = resUser.data;
+
+  if (monitoria.id_usuario === user.id) {
+    titulo.value = monitoria.titulo;
+    descricao.value = monitoria.descricao;
+    localizacao.value = monitoria.localizacao;
+    imagem.value = monitoria.endereco_imagem;
+    tipo.value = monitoria.tipo;
+    data.value = monitoria.data;
+    horario.value = monitoria.horario;
+    tituloForm.innerText = "Editar Monitoria";
+  } else {
+    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+  }
 }
 
-btnCriarMonitoria.addEventListener("click", (event) => {
+btnCriarMonitoria.addEventListener("click", async (e) => {
+  mensagemErro.textContent = "";
+  e.preventDefault();
 
-  event.preventDefault();
+  if (idPost) {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("descricao", descricao.value);
+      fd.append("tipo", tipo.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("data", data.value);
+      fd.append("horario", horario.value);
+      fd.append("endereco_imagem", imagem.value);
 
-  const data = new Date(Date.now());
-  const dataFormatada = data.toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
 
-  if (!idValor.value) {
-    if (validacao()) {
-      const monitoria = {
-        id: Date.now(),
-        titulo: titulo.value,
-        descricao: descricao.value,
-        localizacao: localizacao.value,
-        imagem: imagem.value,
-        horario: horarioInput.value,
-        tipoMonitoria: tipoInput.value,
-        dia: dataInput.value,
-        usuario: sessao.email,
-        nomeUsuario: sessao.nome,
-        data: dataFormatada,
-        tipo: "Monitoria"
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_alterar.php?id="+idPost, {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
       }
-      postagens.push(monitoria);
-      localStorage.setItem("postagens", JSON.stringify(postagens));
       const modal = document.getElementById("exampleModal");
-      const modalBootstrap = new bootstrap.Modal(modal, {backdrop : false});
-
-      titulo.value = "";
-      descricao.value = "";
-      localizacao.value = "";
-      imagem.value = "";
-      tipoInput.value = "";
-      dataInput.value = "";
-      horarioInput.value = "";
+      document.getElementById("mensagemModal").innerHTML = "Sua Monitoria foi alterada com sucesso!";
+      const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
       modalBootstrap.show();
-      
       setTimeout(() => {
         modalBootstrap.hide();
-      }, 1500);
+      }, 3000);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao alterar a monitoria. Tente novamente.";
     }
-  } else {
-    if (validacao()) {
 
-      const monitoria = postagens.find(post => post.id == idValor.value);
-      monitoria.titulo = titulo.value;
-      monitoria.localizacao = localizacao.value;
-      monitoria.descricao = descricao.value;
-      monitoria.imagem = imagem.value;
-      monitoria.tipoMonitoria = tipoInput.value;
-      monitoria.data = dataInput.value;
-      monitoria.horario = horarioInput.value;
-      console.log(JSON.parse(localStorage.getItem("postagens")));
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-      localStorage.removeItem("postagemEditar");
-      window.location.href = "../paginas/postagens.html";
+
+  } else {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("descricao", descricao.value);
+      fd.append("tipo", tipo.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("data", data.value);
+      fd.append("horario", horario.value);
+      fd.append("endereco_imagem", imagem.value);
+
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_novo.php", {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
+      const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Sua Monitoria foi criada com sucesso!";
+      const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
+      modalBootstrap.show();
+      setTimeout(() => {
+        modalBootstrap.hide();
+      }, 3000);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/monitoria.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao criar a monitoria. Tente novamente.";
     }
   }
-
 });
 
-function validacao() {
-  if (titulo.value && localizacao.value && horarioInput.value && dataInput.value && (tipoInput.value !== "")) return true;
-  return false;
-}
+document.addEventListener("DOMContentLoaded", async () => {
+  if (idPost) {
+    await verificarEdicao(idPost);
+  }
+});

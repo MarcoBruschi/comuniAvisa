@@ -5,6 +5,7 @@ const localizacao = document.getElementById("localizacao");
 const imagem = document.getElementById("imagem");
 const gravidade = document.getElementById("gravidade");
 const tituloForm = document.querySelector(".titulo-form");
+const mensagemErro = document.getElementById("mensagemErro");
 
 const params = new URLSearchParams(window.location.search);
 const idPost = params.get("id");
@@ -26,29 +27,34 @@ async function verificarEdicao(id) {
     gravidade.value = alerta.gravidade;
     tituloForm.innerText = "Editar Alerta";
   } else {
-    window.location.href = "../paginas/postagens.html";
+    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
   }
 }
 
 btnCriarAlerta.addEventListener("click", async (e) => {
-
+  mensagemErro.textContent = "";
   e.preventDefault();
 
   if (idPost) {
-    const fd = new FormData();
-    fd.append("titulo", titulo.value);
-    fd.append("descricao", descricao.value);
-    fd.append("localizacao", localizacao.value);
-    fd.append("endereco_imagem", imagem.value);
-    fd.append("gravidade", gravidade.value);
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("descricao", descricao.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("endereco_imagem", imagem.value);
+      fd.append("gravidade", gravidade.value);
 
-    const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_alterar.php?id="+idPost, {
-      method: 'POST',
-      body: fd
-    });
 
-    const res = await req.json();
-    if (res.status === "ok") {
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_alterar.php?id=" + idPost, {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
       const modal = document.getElementById("exampleModal");
       document.getElementById("mensagemModal").innerHTML = "Seu Alerta foi alterado com sucesso!";
       const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
@@ -56,22 +62,31 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       setTimeout(() => {
         modalBootstrap.hide();
       }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao alterar o alerta. Tente novamente.";
     }
+
+
   } else {
-    const fd = new FormData();
-    fd.append("titulo", titulo.value);
-    fd.append("descricao", descricao.value);
-    fd.append("localizacao", localizacao.value);
-    fd.append("endereco_imagem", imagem.value);
-    fd.append("gravidade", gravidade.value);
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("descricao", descricao.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("endereco_imagem", imagem.value);
+      fd.append("gravidade", gravidade.value);
 
-    const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_novo.php", {
-      method: 'POST',
-      body: fd
-    });
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_novo.php", {
+        method: 'POST',
+        body: fd
+      });
 
-    const res = await req.json();
-    if (res.status === "ok") {
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
       const modal = document.getElementById("exampleModal");
       document.getElementById("mensagemModal").innerHTML = "Seu Alerta foi criado com sucesso!";
       const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
@@ -79,10 +94,11 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       setTimeout(() => {
         modalBootstrap.hide();
       }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/alerta.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao criar o alerta. Tente novamente.";
     }
   }
-
-
 });
 
 document.addEventListener("DOMContentLoaded", async () => {

@@ -59,14 +59,14 @@
             <h5 class="modal-title">Monitoria Criada!</h5>
           </div>
           <div class="modal-body">
-            <p>Sua monitoria foi criada com sucesso!</p>
+            <p id="mensagemModal">Sua monitoria foi criada com sucesso!</p>
           </div>
         </div>
       </div>
     </div>
     <form class="p-3 bg-dark text-light rounded form-monitoria mt-5">
-      <input type="text" id="id" style="display: none;">
       <h2 class="text-center titulo-form">Criar Monitoria</h2>
+      <span class="text-danger" id="mensagemErro"></span>
       <div class="mb-3 d-flex flex-column">
         <label for="titulo">Título</label>
         <input type="text" id="titulo" required>

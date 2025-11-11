@@ -59,14 +59,14 @@
             <h5 class="modal-title">Serviço criado!</h5>
           </div>
           <div class="modal-body">
-            <p>Seu Serviço foi postado com sucesso!</p>
+            <p id="mensagemModal" >Seu Serviço foi postado com sucesso!</p>
           </div>
         </div>
       </div>
     </div>
     <form class="p-3 bg-dark text-light rounded form-alerta mt-5">
-      <input type="text" id="id" style="display: none;">
       <h2 class="text-center titulo-form">Postar serviço</h2>
+      <span class="text-danger" id="mensagemErro"></span>
       <div class="mb-3 d-flex flex-column">
         <label for="titulo">Título</label>
         <input type="text" id="titulo" required>

@@ -11,24 +11,24 @@
         $titulo       = $_POST['titulo'];
         $descricao      = $_POST['descricao'];
         $localizacao    = $_POST['localizacao'];
-        $gravidade      = $_POST['gravidade'];
         $endereco_imagem = $_POST['endereco_imagem'];
+        $tempo_servico   = $_POST['tempo_servico'];
 
-        $stmt = $conexao->prepare("UPDATE alerta SET titulo = ?, descricao = ?, localizacao = ?, gravidade = ?, endereco_imagem = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $titulo, $descricao, $localizacao, $gravidade, $endereco_imagem, $_GET['id']);
+        $stmt = $conexao->prepare("UPDATE servico SET titulo = ?, descricao = ?, localizacao = ?, tempo_servico = ?, endereco_imagem = ? WHERE id = ?");
+        $stmt->bind_param("sssssi", $titulo, $descricao, $localizacao, $tempo_servico, $endereco_imagem, $_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
 
             $retorno = [
                 'status'    => 'ok',
-                'mensagem'  => 'Alerta alterado com sucesso.',
+                'mensagem'  => 'Serviço alterado com sucesso.',
                 'data'      => []
             ];
         }else{
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Não foi possível alterar o Alerta (erro ou dados iguais)!',
+                'mensagem'  => 'Não foi possível alterar o Serviço (erro ou dados iguais)!',
                 'data'      => []
             ];
         }
@@ -36,7 +36,7 @@
     }else{
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'Não posso alterar um alerta sem um ID informado.',
+            'mensagem'  => 'Não posso alterar um serviço sem um ID informado.',
             'data'      => []
         ];
     }

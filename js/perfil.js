@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const req = await fetch("../php/cliente_get.php");
   const res = await req.json();
   const user = res.data;
 
@@ -23,25 +23,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     fd.append("endereco", document.getElementById("endereco").value);
     fd.append("senha", document.getElementById("senha").value);
 
-    const req = await fetch("../php/cliente_alterar.php", {
+    const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_alterar.php", {
       method: 'POST',
       body: fd
     });
     const res = await req.json();
     if (res.status === 'ok') {
-      window.location.href = "../paginas/home.html";
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/home.html";
     } else {
       campoErro.textContent = `Erro ao salvar perfil. ${res.mensagem}. Tente novamente.`;
     }
   });
   const btnExcluir = document.getElementById("excluir-perfil");
   btnExcluir.addEventListener("click", async () => {
-    const req = await fetch("../php/cliente_excluir.php?id="+document.getElementById("id").value);
+    const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_excluir.php?id="+document.getElementById("id").value);
     const res = await req.json();
     console.log(res, document.getElementById("id").value);
     if (res.status === 'ok') {
-      const logoff = await fetch("../php/cliente_logoff.php");
-      window.location.href = "../index.html";
+      const logoff = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_logoff.php");
+      window.location.href = "http://localhost/comuniAvisaprojeto/index.html";
     } else {
       campoErro.textContent = `Erro ao excluir perfil. ${res.mensagem}. Tente novamente.`;
     }

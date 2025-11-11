@@ -1,93 +1,108 @@
-const btnPostarServico = document.getElementById("postar-serviço");
-const sessao = JSON.parse(localStorage.getItem("sessao"));
+const btnCriarServico = document.getElementById("postar-serviço");
 const titulo = document.getElementById("titulo");
 const descricao = document.getElementById("descricao");
 const localizacao = document.getElementById("localizacao");
 const imagem = document.getElementById("imagem");
 const tempo = document.getElementById("tempo");
-const idValor = document.getElementById("id");
-
-let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
-idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
-
 const tituloForm = document.querySelector(".titulo-form");
+const mensagemErro = document.getElementById("mensagemErro");
 
-if (idValor.value) {
-  const post = postagens.find(post => post.id == idValor.value);
-  titulo.value = post.titulo;
-  descricao.value = post.descricao;
-  localizacao.value = post.localizacao;
-  imagem.value = post.imagem;
-  tempo.value = post.tempo;
+const params = new URLSearchParams(window.location.search);
+const idPost = params.get("id");
 
-  tituloForm.textContent = "Editar Serviço";
-  btnPostarServico.textContent = "Editar Serviço";
-} else {
-  tituloForm.textContent = "Postar serviço";
-  btnPostarServico.textContent = "Postar serviço";
+async function verificarEdicao(id) {
+  const reqServico = await fetch("http://localhost/comuniAvisaprojeto/php/servico_get.php?id="+id);
+  const resServico = await reqServico.json();
+  const servico = resServico.data[0];
+
+  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const resUser = await reqUser.json();
+  const user = resUser.data;
+
+  if (servico.id_usuario === user.id) {
+    titulo.value = servico.titulo;
+    descricao.value = servico.descricao;
+    localizacao.value = servico.localizacao;
+    imagem.value = servico.endereco_imagem;
+    tempo.value = servico.tempo_servico;
+    tituloForm.innerText = "Editar Serviço";
+  } else {
+    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+  }
 }
 
-btnPostarServico.addEventListener("click", (event) => {
-  event.preventDefault();
+btnCriarServico.addEventListener("click", async (e) => {
+  mensagemErro.textContent = "";
+  e.preventDefault();
 
-  const data = new Date(Date.now());
-  const dataFormatada = data.toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
+  if (idPost) {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("descricao", descricao.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("endereco_imagem", imagem.value);
+      fd.append("tempo_servico", tempo.value);
 
-  if (!idValor.value) {
-    if (validacao()) {
-      const servico = {
-        id: Date.now(),
-        titulo: titulo.value,
-        descricao: descricao.value,
-        localizacao: localizacao.value,
-        imagem: imagem.value,
-        tempo: tempo.value,
-        usuario: sessao.email,
-        nomeUsuario: sessao.nome,
-        data: dataFormatada,
-        tipo: "servico"
+
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/servico_alterar.php?id="+idPost, {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return;
       }
-      postagens.push(servico);
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-
       const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Seu serviço foi alterado com sucesso!";
       const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
-
-      titulo.value = "";
-      descricao.value = "";
-      localizacao.value = "";
-      imagem.value = "";
-      tempo.value = "";
-
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
       }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao alterar o serviço. Tente novamente.";
     }
-  } else {
-    if (validacao()) {
-      const servico = postagens.find(post => post.id == idValor.value);
-      servico.titulo = titulo.value;
-      servico.localizacao = localizacao.value;
-      servico.descricao = descricao.value;
-      servico.imagem = imagem.value;
-      servico.tempo = tempo.value;
 
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-      localStorage.removeItem("postagemEditar");
-      window.location.href = "../paginas/postagens.html";
+
+  } else {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("descricao", descricao.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("endereco_imagem", imagem.value);
+      fd.append("tempo_servico", tempo.value);
+
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/servico_novo.php", {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return;
+      }
+      const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Seu Serviço foi criado com sucesso!";
+      const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
+      modalBootstrap.show();
+      setTimeout(() => {
+        modalBootstrap.hide();
+      }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/servico.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao criar o serviço. Tente novamente.";
     }
   }
 });
 
-function validacao() {
-  if (titulo.value && sessao && localizacao.value && (tempo.value !== "")) return true;
-  return false;
-}
+document.addEventListener("DOMContentLoaded", async () => {
+  if (idPost) {
+    await verificarEdicao(idPost);
+  }
+});

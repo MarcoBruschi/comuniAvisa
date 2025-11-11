@@ -7,11 +7,12 @@
         'data'      => []
     ];
     $titulo = isset($_POST['titulo']) ? $_POST['titulo'] : '';
-    $descricao = isset($_POST['descricao']) ? $_POST['descricao'] : '';
+    $conteudo = isset($_POST['conteudo']) ? $_POST['conteudo'] : '';
     $localizacao = isset($_POST['localizacao']) ? $_POST['localizacao'] : '';
-    $endereco_imagem = isset($_POST['endereco_imagem']) ? $_POST['endereco_imagem'] : '';
-    $gravidade = isset($_POST['gravidade']) ? $_POST['gravidade'] : '';
-    $status = isset($_POST['status']) ? $_POST['status'] : 'Não resolvido';
+    $data = isset($_POST['data']) ? $_POST['data'] : '';
+    $horario = isset($_POST['horario']) ? $_POST['horario'] : '';
+    $tema = isset($_POST['tema']) ? $_POST['tema'] : '';
+    $publico = isset($_POST['publico']) ? $_POST['publico'] : '';
     $nome_usuario = isset($_SESSION['usuario'][0]) ? $_SESSION['usuario'][0]['nome'] : '';
     $id_usuario = isset($_SESSION['usuario'][0]) ? $_SESSION['usuario'][0]['id'] : '';
 
@@ -26,7 +27,7 @@
       exit;
     }
 
-    if ($titulo === '' || $localizacao === '' || $gravidade === '') {
+    if ($titulo === '' || $conteudo === '' || $localizacao === '' || $data === '' || $horario === '' || $tema === '' || $publico === '') {
         $retorno = [
             'status' => 'nok',
             'mensagem' => 'Todos os campos são obrigatórios.',
@@ -38,20 +39,20 @@
     }
 
     // Preparando para inserção no banco de dados
-    $stmt = $conexao->prepare("INSERT INTO alerta(titulo, descricao, localizacao, gravidade, status, data_criacao, endereco_imagem, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?)");
-    $stmt->bind_param("sssssssi", $titulo, $descricao, $localizacao, $gravidade, $status, $endereco_imagem, $nome_usuario, $id_usuario);
+    $stmt = $conexao->prepare("INSERT INTO workshop(titulo, conteudo, localizacao, data, horario, tema, publico, nome_usuario, data_criacao, id_usuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)");
+    $stmt->bind_param("ssssssssi", $titulo, $conteudo, $localizacao, $data, $horario, $tema, $publico, $nome_usuario, $id_usuario);
     $stmt->execute();
 
     if($stmt->affected_rows > 0){
         $retorno = [
             'status' => 'ok',
-            'mensagem' => 'Alerta criado com sucesso',
+            'mensagem' => 'Workshop criado com sucesso',
             'data' => []
         ];
     }else{
         $retorno = [
             'status' => 'nok',
-            'mensagem' => 'falha ao inserir o Alerta',
+            'mensagem' => 'falha ao inserir o Workshop',
             'data' => []
         ];
     }

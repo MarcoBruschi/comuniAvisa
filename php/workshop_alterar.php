@@ -9,26 +9,28 @@
 
     if(isset($_GET['id'])){
         $titulo       = $_POST['titulo'];
-        $descricao      = $_POST['descricao'];
+        $conteudo      = $_POST['conteudo'];
         $localizacao    = $_POST['localizacao'];
-        $gravidade      = $_POST['gravidade'];
-        $endereco_imagem = $_POST['endereco_imagem'];
+        $data      = $_POST['data'];
+        $horario = $_POST['horario'];
+        $tema = $_POST['tema'];
+        $publico = $_POST['publico'];
 
-        $stmt = $conexao->prepare("UPDATE alerta SET titulo = ?, descricao = ?, localizacao = ?, gravidade = ?, endereco_imagem = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $titulo, $descricao, $localizacao, $gravidade, $endereco_imagem, $_GET['id']);
+        $stmt = $conexao->prepare("UPDATE workshop SET titulo = ?, conteudo = ?, localizacao = ?, data = ?, horario = ?, tema = ?, publico = ? WHERE id = ?");
+        $stmt->bind_param("sssssssi", $titulo, $conteudo, $localizacao, $data, $horario, $tema, $publico, $_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
 
             $retorno = [
                 'status'    => 'ok',
-                'mensagem'  => 'Alerta alterado com sucesso.',
+                'mensagem'  => 'Workshop alterado com sucesso.',
                 'data'      => []
             ];
         }else{
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Não foi possível alterar o Alerta (erro ou dados iguais)!',
+                'mensagem'  => 'Não foi possível alterar o Workshop (erro ou dados iguais)!',
                 'data'      => []
             ];
         }

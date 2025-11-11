@@ -56,26 +56,26 @@
             <h5 class="modal-title">Workshop Criado!</h5>
           </div>
           <div class="modal-body">
-            <p>Seu Workshop foi criado com sucesso!</p>
+            <p id="mensagemModal">Seu Workshop foi criado com sucesso!</p>
           </div>
         </div>
       </div>
     </div>
 
     <form class="p-3 bg-dark text-light rounded form-workshop mt-5">
-      <input type="text" id="id" style="display: none;">
       <h2 class="text-center titulo-form">Criar Workshop</h2>
+      <span class="text-danger" id="mensagemErro"></span>
       <div class="mb-3 d-flex flex-column">
-        <label for="nome">Nome do Workshop</label>
-        <input type="text" id="nome" required>
+        <label for="titulo">Nome do Workshop</label>
+        <input type="text" id="titulo" required>
       </div>
       <div class="mb-3 d-flex flex-column">
         <label for="conteudo">Conteúdo</label>
         <textarea style="resize: none;" type="text" id="conteudo" required></textarea>
       </div>
       <div class="mb-3 d-flex flex-column">
-        <label for="local">Local</label>
-        <input style="resize: none;" type="text" id="local" required>
+        <label for="localizacao">Local</label>
+        <input style="resize: none;" type="text" id="localizacao" required>
       </div>
       <div class="mb-3 d-flex flex-column">
         <label for="data">Data</label>

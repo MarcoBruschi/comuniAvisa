@@ -1,104 +1,116 @@
-let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
-const sessao = JSON.parse(localStorage.getItem("sessao"));
-const nomeInput = document.getElementById("nome");
-const conteudoInput = document.getElementById("conteudo");
-const localInput = document.getElementById("local");
-const horarioInput = document.getElementById("horario");
-const dataInput = document.getElementById("data");
-const temaInput = document.getElementById("tema");
-const publicoInput = document.getElementById("publico");
 const btnCriarWorkshop = document.getElementById("criar-workshop");
+const titulo = document.getElementById("titulo");
+const descricao = document.getElementById("conteudo");
+const localizacao = document.getElementById("localizacao");
+const data = document.getElementById("data");
+const horario = document.getElementById("horario");
+const tema = document.getElementById("tema");
+const publico = document.getElementById("publico");
 const tituloForm = document.querySelector(".titulo-form");
-const idValor = document.getElementById("id");
-idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
+const mensagemErro = document.getElementById("mensagemErro");
 
+const params = new URLSearchParams(window.location.search);
+const idPost = params.get("id");
 
-if (idValor.value) {
-  const post = postagens.find((post) => post.id == idValor.value);
-  nomeInput.value = post.titulo;
-  conteudoInput.value = post.descricao;
-  localInput.value = post.localizacao;
-  horarioInput.value = post.horario;
-  dataInput.value = post.dia;
-  temaInput.value = post.tema;
-  publicoInput.value = post.publico;
+async function verificarEdicao(id) {
+  const reqWorkshop = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_get.php?id=" + id);
+  const resWorkshop = await reqWorkshop.json();
+  const workshop = resWorkshop.data[0];
 
-  tituloForm.textContent = "Editar Workshop";
-  btnCriarWorkshop.textContent = "Editar Workshop";
-} else {
-  tituloForm.textContent = "Criar Workshop";
-  btnCriarWorkshop.textContent = "Criar Workshop";
+  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const resUser = await reqUser.json();
+  const user = resUser.data;
+
+  if (workshop.id_usuario === user.id) {
+    titulo.value = workshop.titulo;
+    conteudo.value = workshop.conteudo;
+    localizacao.value = workshop.localizacao;
+    data.value = workshop.data;
+    horario.value = workshop.horario;
+    tema.value = workshop.tema;
+    publico.value = workshop.publico;
+    tituloForm.innerText = "Editar Alerta";
+  } else {
+    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+  }
 }
 
-btnCriarWorkshop.addEventListener("click", (event) => {
-  event.preventDefault();
+btnCriarWorkshop.addEventListener("click", async (e) => {
+  mensagemErro.textContent = "";
+  e.preventDefault();
 
-  const data = new Date(Date.now());
-  const dataFormatada = data.toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  if (idPost) {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("conteudo", conteudo.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("data", data.value);
+      fd.append("horario", horario.value);
+      fd.append("tema", tema.value);
+      fd.append("publico", publico.value);
 
-  if (!idValor.value) {
-    if (validacao()) {
-      const workshop = {
-        id: Date.now(),
-        titulo: nomeInput.value,
-        descricao: conteudoInput.value,
-        localizacao: localInput.value,
-        horario: horarioInput.value,
-        dia: dataInput.value,
-        tema: temaInput.value,
-        publico: publicoInput.value,
-        usuario: sessao.email,
-        nomeUsuario: sessao.nome,
-        data: dataFormatada,
-        tipo: "Workshop",
-      };
 
-      postagens.push(workshop);
-      localStorage.setItem("postagens", JSON.stringify(postagens));
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_alterar.php?id=" + idPost, {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
       const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Seu Workshop foi alterado com sucesso!";
       const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
-
-      nomeInput.value = "";
-      conteudoInput.value = "";
-      localInput.value = "";
-      horarioInput.value = "";
-      dataInput.value = "";
-      temaInput.value = "";
-      publicoInput.value = "";
-
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
       }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao alterar o alerta. Tente novamente.";
     }
-  } else {
-    if (validacao()) {
-      const workshop = postagens.find((post) => post.id == idValor.value);
-      workshop.titulo = nomeInput.value;
-      workshop.descricao = conteudoInput.value;
-      workshop.localizacao = localInput.value;
-      workshop.horario = horarioInput.value;
-      workshop.dia = dataInput.value;
-      workshop.tema = temaInput.value;
-      workshop.publico = publicoInput.value;
 
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-      localStorage.removeItem("postagemEditar");
-      window.location.href = "../paginas/postagens.html";
+
+  } else {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("conteudo", conteudo.value);
+      fd.append("localizacao", localizacao.value);
+      fd.append("data", data.value);
+      fd.append("horario", horario.value);
+      fd.append("tema", tema.value);
+      fd.append("publico", publico.value);
+
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_novo.php", {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
+      const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Seu Workshop foi criado com sucesso!";
+      const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
+      modalBootstrap.show();
+      setTimeout(() => {
+        modalBootstrap.hide();
+      }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/workshop.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao criar o Workshop. Tente novamente.";
     }
   }
 });
 
-function validacao() {
-  if (nomeInput.value && conteudoInput.value && localInput.value && horarioInput.value && dataInput.value && (temaInput.value !== "" && publicoInput.value !== "")) {
-    return true;
-  } 
-  return false;
-}
+document.addEventListener("DOMContentLoaded", async () => {
+  if (idPost) {
+    await verificarEdicao(idPost);
+  }
+});

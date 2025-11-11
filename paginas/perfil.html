@@ -11,7 +11,6 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/alertas.css">
 </head>
 
 <body>
@@ -52,7 +51,7 @@
     </nav>
   </header>
 
-  <main class="mt-5 w-100 d-flex justify-content-center align-item-center">
+  <main class="mt-2 w-100 d-flex justify-content-center align-item-center">
     <form class="p-3 bg-dark text-light rounded form-alerta mt-5" id="form-perfil">
       <input type="text" id="id" hidden>
       <h2 class="text-center titulo-form">Editar Perfil</h2>
@@ -84,21 +83,19 @@
 
       <div class="mb-3 d-flex flex-wrap gap-2 justify-content-center">
         <button type="submit" id="salvar-perfil" class="btn btn-primary">Salvar</button>
-        <button type="button" id="cancelar-perfil" class="btn btn-secondary" onclick="window.location.href='./home.html'">Cancelar</button>
+        <button type="button" id="cancelar-perfil" class="btn btn-secondary"
+          onclick="window.location.href='./home.html'">Cancelar</button>
         <button type="button" id="excluir-perfil" class="btn btn-danger">Excluir Perfil</button>
       </div>
     </form>
   </main>
-
-  <footer class="mt-5">
-    <p class="text-center">© 2025 ComuniAvisa. Todos os direitos reservados.</p>
-  </footer>
-
   <script src="../js/valida_sessao.js"></script>
   <script>
     valida_sessao();
   </script>
   <script src="../js/perfil.js"></script>
 </body>
-
+<footer class="text-light text-center py-3 mt-auto">
+  <p class="mb-0">© 2025 ComuniAvisa. Todos os direitos reservados.</p>
+</footer>
 </html>

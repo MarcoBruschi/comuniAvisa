@@ -2,11 +2,11 @@
     include_once('conexao.php');
     if(isset($_GET['id'])){
         // Segunda situação - RECEBENDO O ID por GET
-        $stmt = $conexao->prepare("SELECT * FROM monitoria WHERE id = ?");
+        $stmt = $conexao->prepare("SELECT * FROM conteudo_educativo WHERE id = ?");
         $stmt->bind_param("i",$_GET['id']);
     }else{
         // Primeira situação - SEM RECEBER O ID por GET
-        $stmt = $conexao->prepare("SELECT * FROM monitoria");
+        $stmt = $conexao->prepare("SELECT * FROM conteudo_educativo");
     }
     
     // Recuperando informações do banco de dados

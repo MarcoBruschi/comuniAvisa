@@ -57,17 +57,17 @@
             <h5 class="modal-title">Conteúdo Criado!</h5>
           </div>
           <div class="modal-body">
-            <p>Seu Conteúdo foi criado com sucesso!</p>
+            <p id="mensagemModal">Seu Conteúdo foi criado com sucesso!</p>
           </div>
         </div>
       </div>
     </div>
     <form class="p-3 bg-dark text-light rounded form-conteudo mt-5">
-      <input type="text" id="id" style="display: none;">
       <h2 class="text-center titulo-form">Criar Conteúdo Educativo</h2>
+      <span class="text-danger" id="mensagemErro"></span>
       <div class="mb-3 d-flex flex-column">
-        <label for="nome">Nome do Conteúdo</label>
-        <input type="text" id="nome" required>
+        <label for="titulo">Nome do Conteúdo</label>
+        <input type="text" id="titulo" required>
       </div>
       <div class="mb-3 d-flex flex-column">
         <label for="conteudo">Qual o Conteúdo</label>

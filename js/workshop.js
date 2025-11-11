@@ -1,6 +1,6 @@
 const btnCriarWorkshop = document.getElementById("criar-workshop");
 const titulo = document.getElementById("titulo");
-const descricao = document.getElementById("conteudo");
+const conteudo = document.getElementById("conteudo");
 const localizacao = document.getElementById("localizacao");
 const data = document.getElementById("data");
 const horario = document.getElementById("horario");

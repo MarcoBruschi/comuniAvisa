@@ -39,5 +39,5 @@
 
     // Estou enviando para o FRONT o array RETORNO
     // mas no formato JSON
-    header("Content-type:application/json;charset:utf-8");
+    header("Content-type:application/json;charset=utf-8");
     echo json_encode($retorno);

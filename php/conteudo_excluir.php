@@ -11,20 +11,20 @@
 
     if(isset($_GET['id'])){
         // Segunda situação - RECEBENDO O ID por GET
-        $stmt = $conexao->prepare("DELETE FROM workshop WHERE id = ?");
+        $stmt = $conexao->prepare("DELETE FROM conteudo_educativo WHERE id = ?");
         $stmt->bind_param("i",$_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
             $retorno = [
                 'status'    => 'ok', // ok - nok
-                'mensagem'  => 'Workshop excluido', // mensagem que envio para o front
+                'mensagem'  => 'Conteúdo excluído', // mensagem que envio para o front
                 'data'      => []
             ];
         }else{
             $retorno = [
                 'status'    => 'nok', // ok - nok
-                'mensagem'  => 'Workshop não excluido', // mensagem que envio para o front
+                'mensagem'  => 'Conteúdo não excluído', // mensagem que envio para o front
                 'data'      => []
             ];
         }

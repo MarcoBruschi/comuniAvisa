@@ -5,17 +5,20 @@ async function fetchPostagens() {
   const servicos = await fetch("http://localhost/comuniAvisaprojeto/php/servico_get.php");
   const monitorias = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_get.php");
   const workshops = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_get.php");
+  const conteudos = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_get.php");
 
   const resAlertas = await alertas.json();
   const resServicos = await servicos.json();
   const resMonitorias = await monitorias.json();
   const resWorkshops = await workshops.json();
+  const resConteudos = await conteudos.json();
 
   const postagens = {
     alerta: resAlertas.data,
     servico: resServicos.data,
     monitoria: resMonitorias.data,
-    workshop: resWorkshops.data
+    workshop: resWorkshops.data,
+    conteudo: resConteudos.data
   }
   return postagens;
 }
@@ -117,6 +120,20 @@ async function cards(tipo, postagem) {
           ${await botoesPostagens(postagem.id_usuario)}
         </div>
       </div>`;
+
+    case "conteudo":
+      return `<div id="${postagem.id}" class="card" tipo="conteudo">
+        <div class="card-body">
+        <h3>Conteúdo Educativo : ${postagem.tema}</h3>
+        <h5 class="card-title">${postagem.titulo}</h5>
+        <p class="card-text">${postagem.conteudo.length > 120 ? postagem.conteudo.substring(0, 120) + "..." : postagem.conteudo}</p>
+        ${postagem.link ? `<p class="card-text"><strong>Link: <a href="${postagem.link}">clique aqui</a></strong></p>` : ""}
+        <p class="card-text">Destinado para <strong>${postagem.publico}</strong></p>
+        <p class="card-text">Postado por <strong>${postagem.nome_usuario}</strong></p>
+        <p class="card-text">${postagem.data_criacao}</p>
+        ${await botoesPostagens(postagem.id_usuario)}
+      </div>
+    </div>`;
   }
 
 }

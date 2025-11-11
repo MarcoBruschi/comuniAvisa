@@ -1,102 +1,107 @@
-let postagens = localStorage.getItem("postagens") ? JSON.parse(localStorage.getItem("postagens")) : [];
-const sessao = JSON.parse(localStorage.getItem("sessao"));
-const nomeInput = document.getElementById("nome");
-const conteudoInput = document.getElementById("conteudo");
-const linkInput = document.getElementById("link");
-const temaInput = document.getElementById("tema");
-const publicoInput = document.getElementById("publico");
 const btnCriarConteudo = document.getElementById("criar-conteudo");
+const titulo = document.getElementById("titulo");
+const conteudo = document.getElementById("conteudo");
+const link = document.getElementById("link");
+const tema = document.getElementById("tema");
+const publico = document.getElementById("publico");
 const tituloForm = document.querySelector(".titulo-form");
-const idValor = document.getElementById("id");
+const mensagemErro = document.getElementById("mensagemErro");
 
-idValor.value = localStorage.getItem("postagemEditar") ? JSON.parse(localStorage.getItem("postagemEditar")) : "";
+const params = new URLSearchParams(window.location.search);
+const idPost = params.get("id");
 
-if (idValor.value) {
-  const post = postagens.find((post) => post.id == idValor.value);
-  nomeInput.value = post.titulo;
-  conteudoInput.value = post.descricao;
-  linkInput.value = post.link;
-  temaInput.value = post.tema;
-  publicoInput.value = post.publico;
+async function verificarEdicao(id) {
+  const reqConteudo = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_get.php?id="+id);
+  const resConteudo = await reqConteudo.json();
+  const conteudo = resConteudo.data[0];
 
-  tituloForm.textContent = "Editar Conteúdo Educativo";
-  btnCriarConteudo.textContent = "Editar Conteúdo";
-} else {
-  tituloForm.textContent = "Criar Conteúdo Educativo";
-  btnCriarConteudo.textContent = "Criar Conteúdo";
+  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const resUser = await reqUser.json();
+  const user = resUser.data;
+
+  if (conteudo.id_usuario === user.id) {
+    titulo.value = conteudo.titulo;
+    conteudo.value = conteudo.conteudo;
+    link.value = conteudo.link;
+    tema.value = conteudo.tema;
+    publico.value = conteudo.publico;
+    tituloForm.innerText = "Editar Alerta";
+  } else {
+    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+  }
 }
 
-btnCriarConteudo.addEventListener("click", (event) => {
-  event.preventDefault();
+btnCriarConteudo.addEventListener("click", async (e) => {
+  mensagemErro.textContent = "";
+  e.preventDefault();
 
-  const data = new Date(Date.now());
-  const dataFormatada = data.toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
-  if (!idValor.value) {
-    // Criar novo conteúdo
-    if (validacao()) {
-    const conteudo = {
-      id: Date.now(),
-      titulo: nomeInput.value,
-      descricao: conteudoInput.value,
-      link: linkInput.value,
-      tema: temaInput.value,
-      publico: publicoInput.value,
-      usuario: sessao.email,
-      nomeUsuario: sessao.nome,
-      data: dataFormatada,
-      tipo: "conteudo",
-    };
+  if (idPost) {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("conteudo", conteudo.value);
+      fd.append("link", link.value);
+      fd.append("tema", tema.value);
+      fd.append("publico", publico.value);
 
 
-      postagens.push(conteudo);
-      localStorage.setItem("postagens", JSON.stringify(postagens));
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_alterar.php?id="+idPost, {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
       const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Seu Conteúdo foi alterado com sucesso!";
       const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
-
-      nomeInput.value = "";
-      conteudoInput.value = "";
-      linkInput.value = "";
-      temaInput.value = "Tema";
-      publicoInput.value = "Público Alvo";
-
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
       }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    } catch (error) {
+      mensagemErro.textContent = "Erro ao alterar o Conteúdo. Tente novamente.";
     }
-  } else {
-    if (validacao()) {
-      const conteudo = postagens.find((post) => post.id == idValor.value);
-      conteudo.titulo = nomeInput.value;
-      conteudo.descricao = conteudoInput.value;
-      conteudo.link = linkInput.value;
-      conteudo.tema = temaInput.value;
-      conteudo.publico =publicoInput.value;
 
-      localStorage.setItem("postagens", JSON.stringify(postagens));
-      localStorage.removeItem("postagemEditar");
-      window.location.href = "../paginas/postagens.html";
+  } else {
+    try {
+      const fd = new FormData();
+      fd.append("titulo", titulo.value);
+      fd.append("conteudo", conteudo.value);
+      fd.append("link", link.value);
+      fd.append("tema", tema.value);
+      fd.append("publico", publico.value);
+
+      const req = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_novo.php", {
+        method: 'POST',
+        body: fd
+      });
+
+      const res = await req.json();
+      if (res.status === "nok") {
+        mensagemErro.textContent = res.mensagem;
+        return
+      }
+      const modal = document.getElementById("exampleModal");
+      document.getElementById("mensagemModal").innerHTML = "Seu Conteúdo foi criado com sucesso!";
+      const modalBootstrap = new bootstrap.Modal(modal, { backdrop: false });
+      modalBootstrap.show();
+      setTimeout(() => {
+        modalBootstrap.hide();
+      }, 1500);
+      window.location.href = "http://localhost/comuniAvisaprojeto/paginas/conteudo.html";
+    } catch(error) {
+      mensagemErro.textContent = "Erro ao criar o Conteúdo. Tente novamente.";
     }
   }
 });
 
-// Validação dos campos obrigatórios do formulário
-function validacao() {
-  if (
-    nomeInput.value &&
-    conteudoInput.value &&
-    (temaInput.value !== "Tema" && publicoInput.value !== "Público Alvo")
-  ) {
-    return true;
+document.addEventListener("DOMContentLoaded", async () => {
+  if (idPost) {
+    await verificarEdicao(idPost);
   }
-  return false;
-}
-
+});

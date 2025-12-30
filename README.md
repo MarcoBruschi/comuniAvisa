@@ -72,7 +72,7 @@ comuniAvisa/
 Coloque a pasta do projeto dentro do diretório do servidor local:
 
 ```
-htdocs/comuniAvisa/
+htdocs/comuniAvisaprojeto/
 ```
 
 ---
@@ -187,7 +187,7 @@ $banco = "ComuniAvisa";
 Abra no navegador:
 
 ```
-http://localhost/comuniAvisa/
+http://localhost/comuniAvisaprojeto/
 ```
 
 ---

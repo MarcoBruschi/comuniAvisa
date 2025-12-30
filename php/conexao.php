@@ -1,9 +1,8 @@
 <?php
-// Variáveis de conexão com o Banco de Dados
-$servidor = "127.0.0.1:3306";
-$usuario  = "root";
-$senha    = "@Ma061106@";
-$nome_banco = "comuniavisa";
+$servidor = "servidor";
+$usuario  = "usuario";
+$senha    = "senha";
+$nome_banco = "nomeDoBanco";
 
 $conexao = new mysqli($servidor, $usuario, $senha, $nome_banco);
 if($conexao->connect_error){

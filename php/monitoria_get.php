@@ -1,20 +1,14 @@
 <?php
     include_once('conexao.php');
     if(isset($_GET['id'])){
-        // Segunda situação - RECEBENDO O ID por GET
         $stmt = $conexao->prepare("SELECT * FROM monitoria WHERE id = ?");
         $stmt->bind_param("i",$_GET['id']);
     }else{
-        // Primeira situação - SEM RECEBER O ID por GET
         $stmt = $conexao->prepare("SELECT * FROM monitoria");
     }
     
-    // Recuperando informações do banco de dados
-    // Vou executar a query
     $stmt->execute();
     $resultado = $stmt->get_result();
-    // Criando um array vazio para receber o resultado
-    // do banco de Dados
     $tabela = [];
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
@@ -22,22 +16,19 @@
         }
 
         $retorno = [
-            'status'    => 'ok', // ok - nok
-            'mensagem'  => 'Sucesso, consulta efetuada.', // mensagem que envio para o front
+            'status'    => 'ok',
+            'mensagem'  => 'Sucesso, consulta efetuada.',
             'data'      => $tabela
         ];
     }else{
         $retorno = [
-            'status'    => 'nok', // ok - nok
-            'mensagem'  => 'Não há registros', // mensagem que envio para o front
+            'status'    => 'nok',
+            'mensagem'  => 'Não há registros',
             'data'      => []
         ];
     }
-    // Fechamento do estado e conexão.
     $stmt->close();
     $conexao->close();
 
-    // Estou enviando para o FRONT o array RETORNO
-    // mas no formato JSON
     header("Content-type:application/json;charset=utf-8");
     echo json_encode($retorno);

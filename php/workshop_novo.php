@@ -38,7 +38,6 @@
         exit;
     }
 
-    // Preparando para inserção no banco de dados
     $stmt = $conexao->prepare("INSERT INTO workshop(titulo, conteudo, localizacao, data, horario, tema, publico, nome_usuario, data_criacao, id_usuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)");
     $stmt->bind_param("ssssssssi", $titulo, $conteudo, $localizacao, $data, $horario, $tema, $publico, $nome_usuario, $id_usuario);
     $stmt->execute();

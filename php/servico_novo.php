@@ -36,7 +36,6 @@
         exit;
     }
 
-    // Preparando para inserção no banco de dados
     $stmt = $conexao->prepare("INSERT INTO servico(titulo, descricao, localizacao, tempo_servico, data_criacao, endereco_imagem, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, NOW(), ?, ?, ?)");
     $stmt->bind_param("ssssssi", $titulo, $descricao, $localizacao, $tempo_servico, $endereco_imagem, $nome_usuario, $id_usuario);
     $stmt->execute();

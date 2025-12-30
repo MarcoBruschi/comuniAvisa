@@ -37,7 +37,6 @@
         exit;
     }
 
-    // Preparando para inserção no banco de dados
     $stmt = $conexao->prepare("INSERT INTO alerta(titulo, descricao, localizacao, gravidade, status, data_criacao, endereco_imagem, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?)");
     $stmt->bind_param("sssssssi", $titulo, $descricao, $localizacao, $gravidade, $status, $endereco_imagem, $nome_usuario, $id_usuario);
     $stmt->execute();

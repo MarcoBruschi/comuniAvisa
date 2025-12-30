@@ -36,7 +36,6 @@
         exit;
     }
 
-    // Preparando para inserção no banco de dados
     $stmt = $conexao->prepare("INSERT INTO conteudo_educativo(titulo, conteudo, link, tema, publico, data_criacao, nome_usuario, id_usuario) VALUES(?, ?, ?, ?, ?, NOW(), ?, ?)");
     $stmt->bind_param("ssssssi", $titulo, $conteudo, $link, $tema, $publico, $nome_usuario, $id_usuario);
     $stmt->execute();

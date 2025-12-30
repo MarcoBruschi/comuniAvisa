@@ -1,23 +1,17 @@
 <?php
     header("Access-Control-Allow-Origin: *");
     include_once('conexao.php');
-    // Configurando o padrão de retorno em todas
-    // as situações
     $retorno = [
-        'status'    => '', // ok - nok
-        'mensagem'  => '', // mensagem que envio para o front
+        'status'    => '',
+        'mensagem'  => '',
         'data'      => []
     ];
 
     $stmt = $conexao->prepare("SELECT * FROM usuario WHERE email = ? AND senha = ?");
     $stmt->bind_param("ss", $_POST['email'],$_POST['senha']);
     
-    // Recuperando informações do banco de dados
-    // Vou executar a query
     $stmt->execute();
     $resultado = $stmt->get_result();
-    // Criando um array vazio para receber o resultado
-    // do banco de Dados
     $tabela = [];
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
@@ -25,27 +19,22 @@
         }
 
     session_start();
-    // Guardar os dados do usuário na sessão sob a chave 'usuario'
-    // (valida_sessao.php verifica $_SESSION['usuario'])
     $_SESSION['usuario'] = $tabela;
 
         $retorno = [
-            'status'    => 'ok', // ok - nok
-            'mensagem'  => 'Sucesso, consulta efetuada.', // mensagem que envio para o front
+            'status'    => 'ok',
+            'mensagem'  => 'Sucesso, consulta efetuada.',
             'data'      => $tabela
         ];
     }else{
         $retorno = [
-            'status'    => 'nok', // ok - nok
-            'mensagem'  => 'Não há registros', // mensagem que envio para o front
+            'status'    => 'nok',
+            'mensagem'  => 'Não há registros',
             'data'      => []
         ];
     }
-    // Fechamento do estado e conexão.
     $stmt->close();
     $conexao->close();
 
-    // Estou enviando para o FRONT o array RETORNO
-    // mas no formato JSON
     header("Content-type:application/json;charset=utf-8");
     echo json_encode($retorno);

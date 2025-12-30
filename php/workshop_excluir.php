@@ -1,40 +1,35 @@
 <?php
     header("Access-Control-Allow-Origin: *");
     include_once('conexao.php');
-    // Configurando o padrão de retorno em todas
-    // as situações
     $retorno = [
-        'status'    => '', // ok - nok
-        'mensagem'  => '', // mensagem que envio para o front
+        'status'    => '',
+        'mensagem'  => '',
         'data'      => []
     ];
 
     if(isset($_GET['id'])){
-        // Segunda situação - RECEBENDO O ID por GET
         $stmt = $conexao->prepare("DELETE FROM workshop WHERE id = ?");
         $stmt->bind_param("i",$_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
             $retorno = [
-                'status'    => 'ok', // ok - nok
-                'mensagem'  => 'Workshop excluido', // mensagem que envio para o front
+                'status'    => 'ok',
+                'mensagem'  => 'Workshop excluido',
                 'data'      => []
             ];
         }else{
             $retorno = [
-                'status'    => 'nok', // ok - nok
-                'mensagem'  => 'Workshop não excluido', // mensagem que envio para o front
+                'status'    => 'nok',
+                'mensagem'  => 'Workshop não excluido',
                 'data'      => []
             ];
         }
         $stmt->close();
     }else{
-        // Configurando o padrão de retorno em todas
-        // as situações
         $retorno = [
-            'status'    => 'nok', // ok - nok
-            'mensagem'  => 'É necessário informar um ID para exclusão', // mensagem que envio para o front
+            'status'    => 'nok',
+            'mensagem'  => 'É necessário informar um ID para exclusão',
             'data'      => []
         ];
     }

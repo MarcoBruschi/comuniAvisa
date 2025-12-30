@@ -6,7 +6,6 @@
         'mensagem'  => '',
         'data'      => []
     ];
-    // Simulando as informações que vem do front
     $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
@@ -24,7 +23,6 @@
         exit;
     }
 
-    // Preparando para inserção no banco de dados
     $stmt = $conexao->prepare("INSERT INTO usuario(nome, email, senha, telefone, data_cadastro, endereco) VALUES(?, ?, ?, ?, NOW(), ?)");
     $stmt->bind_param("sssss", $nome, $email, $senha, $telefone, $endereco);
     $stmt->execute();

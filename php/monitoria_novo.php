@@ -38,7 +38,6 @@
         exit;
     }
 
-    // Preparando para inserção no banco de dados
     $stmt = $conexao->prepare("INSERT INTO monitoria(titulo, descricao, localizacao, tipo, data, horario, endereco_imagem, nome_usuario, data_criacao, id_usuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)");
     $stmt->bind_param("ssssssssi", $titulo, $descricao, $localizacao, $tipo, $data, $horario, $endereco_imagem, $nome_usuario, $id_usuario);
     $stmt->execute();

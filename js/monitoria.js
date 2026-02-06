@@ -12,11 +12,11 @@ const params = new URLSearchParams(window.location.search);
 const idPost = params.get("id");
 
 async function verificarEdicao(id) {
-  const reqMonitoria = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_get.php?id="+id);
+  const reqMonitoria = await fetch("/comuniAvisa/php/monitoria_get.php?id="+id);
   const resMonitoria = await reqMonitoria.json();
   const monitoria = resMonitoria.data[0];
 
-  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const reqUser = await fetch("/comuniAvisa/php/cliente_get.php");
   const resUser = await reqUser.json();
   const user = resUser.data;
 
@@ -30,7 +30,7 @@ async function verificarEdicao(id) {
     horario.value = monitoria.horario;
     tituloForm.innerText = "Editar Monitoria";
   } else {
-    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    window.location.href = "/comuniAvisa/paginas/postagens.html";
   }
 }
 
@@ -50,7 +50,7 @@ btnCriarMonitoria.addEventListener("click", async (e) => {
       fd.append("endereco_imagem", imagem.value);
 
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_alterar.php?id="+idPost, {
+      const req = await fetch("/comuniAvisa/php/monitoria_alterar.php?id="+idPost, {
         method: 'POST',
         body: fd
       });
@@ -66,7 +66,7 @@ btnCriarMonitoria.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+        window.location.href = "/comuniAvisa/paginas/postagens.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar a monitoria. Tente novamente.";
@@ -84,7 +84,7 @@ btnCriarMonitoria.addEventListener("click", async (e) => {
       fd.append("horario", horario.value);
       fd.append("endereco_imagem", imagem.value);
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_novo.php", {
+      const req = await fetch("/comuniAvisa/php/monitoria_novo.php", {
         method: 'POST',
         body: fd
       });
@@ -100,7 +100,7 @@ btnCriarMonitoria.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/monitoria.html";
+        window.location.href = "/comuniAvisa/paginas/monitoria.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar a monitoria. Tente novamente.";

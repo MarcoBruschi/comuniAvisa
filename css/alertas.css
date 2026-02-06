@@ -1,4 +1,4 @@
-@import url("./styles.css");
+@import url("/comuniAvisa/css/styles.css");
 
 #criar-alerta {
   background-color: var(--cor-azul-secundaria);

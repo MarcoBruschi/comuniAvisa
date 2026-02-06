@@ -1,11 +1,11 @@
 const postagensDiv = document.getElementById("postagens");
 
 async function fetchPostagens() {
-  const alertas = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_get.php");
-  const servicos = await fetch("http://localhost/comuniAvisaprojeto/php/servico_get.php");
-  const monitorias = await fetch("http://localhost/comuniAvisaprojeto/php/monitoria_get.php");
-  const workshops = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_get.php");
-  const conteudos = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_get.php");
+  const alertas = await fetch("/comuniAvisa/php/alerta_get.php");
+  const servicos = await fetch("/comuniAvisa/php/servico_get.php");
+  const monitorias = await fetch("/comuniAvisa/php/monitoria_get.php");
+  const workshops = await fetch("/comuniAvisa/php/workshop_get.php");
+  const conteudos = await fetch("/comuniAvisa/php/conteudo_get.php");
 
   const resAlertas = await alertas.json();
   const resServicos = await servicos.json();
@@ -42,7 +42,7 @@ function gravidadeTexto(gravidade) {
 }
 
 async function botoesPostagens(idUsuarioPost) {
-  const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const req = await fetch("/comuniAvisa/php/cliente_get.php");
   const res = await req.json();
   const user = res.data;
   if (user.id === Number(idUsuarioPost)) {
@@ -52,15 +52,14 @@ async function botoesPostagens(idUsuarioPost) {
 }
 
 async function excluirPost(id, tipo) {
-  const req = await fetch(`http://localhost/comuniAvisaprojeto/php/${tipo}_excluir.php?id=` + id, {
+  const req = await fetch(`/comuniAvisa/php/${tipo}_excluir.php?id=` + id, {
     method: "POST",
   });
   const res = await req.json();
-  console.log(res);
 }
 
 async function editarPost(id, tipo) {
-  window.location.href = `../paginas/${tipo}.html?id=${id}`;
+  window.location.href = `/comuniAvisa/paginas/${tipo}.html?id=${id}`;
 }
 
 async function cards(tipo, postagem) {

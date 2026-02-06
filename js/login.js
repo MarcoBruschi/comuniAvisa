@@ -58,13 +58,13 @@ btnEntrar.addEventListener("click", async (event) => {
       fd.append("senha", senha.value);
 
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_login.php", {
+      const req = await fetch("/comuniAvisa/php/cliente_login.php", {
         method: 'POST',
         body: fd
       });
       const res = await req.json();
       if (res.status === 'ok') {
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/home.html";
+        window.location.href = "/comuniAvisa/paginas/home.html";
       } else {
         erroCampo.textContent = `Erro ao criar conta. ${res.mensagem}. Tente novamente.`;
       }
@@ -82,7 +82,7 @@ btnEntrar.addEventListener("click", async (event) => {
       fd.append("telefone", telefone.value);
       fd.append("endereco", endereco.value);
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_novo.php", {
+      const req = await fetch("/comuniAvisa/php/cliente_novo.php", {
         method: 'POST',
         body: fd
       });

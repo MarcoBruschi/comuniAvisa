@@ -11,11 +11,11 @@ const params = new URLSearchParams(window.location.search);
 const idPost = params.get("id");
 
 async function verificarEdicao(id) {
-  const reqServico = await fetch("http://localhost/comuniAvisaprojeto/php/servico_get.php?id="+id);
+  const reqServico = await fetch("/comuniAvisa/php/servico_get.php?id="+id);
   const resServico = await reqServico.json();
   const servico = resServico.data[0];
 
-  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const reqUser = await fetch("/comuniAvisa/php/cliente_get.php");
   const resUser = await reqUser.json();
   const user = resUser.data;
 
@@ -27,7 +27,7 @@ async function verificarEdicao(id) {
     tempo.value = servico.tempo_servico;
     tituloForm.innerText = "Editar Serviço";
   } else {
-    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    window.location.href = "/comuniAvisa/paginas/postagens.html";
   }
 }
 
@@ -45,7 +45,7 @@ btnCriarServico.addEventListener("click", async (e) => {
       fd.append("tempo_servico", tempo.value);
 
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/servico_alterar.php?id="+idPost, {
+      const req = await fetch("/comuniAvisa/php/servico_alterar.php?id="+idPost, {
         method: 'POST',
         body: fd
       });
@@ -61,7 +61,7 @@ btnCriarServico.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+        window.location.href = "/comuniAvisa/paginas/postagens.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o serviço. Tente novamente.";
@@ -77,7 +77,7 @@ btnCriarServico.addEventListener("click", async (e) => {
       fd.append("endereco_imagem", imagem.value);
       fd.append("tempo_servico", tempo.value);
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/servico_novo.php", {
+      const req = await fetch("/comuniAvisa/php/servico_novo.php", {
         method: 'POST',
         body: fd
       });
@@ -93,7 +93,7 @@ btnCriarServico.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/servico.html";
+        window.location.href = "/comuniAvisa/paginas/servico.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar o serviço. Tente novamente.";

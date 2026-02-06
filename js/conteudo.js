@@ -11,11 +11,11 @@ const params = new URLSearchParams(window.location.search);
 const idPost = params.get("id");
 
 async function verificarEdicao(id) {
-  const reqConteudo = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_get.php?id="+id);
+  const reqConteudo = await fetch("/comuniAvisa/php/conteudo_get.php?id="+id);
   const resConteudo = await reqConteudo.json();
   const conteudo = resConteudo.data[0];
 
-  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const reqUser = await fetch("/comuniAvisa/php/cliente_get.php");
   const resUser = await reqUser.json();
   const user = resUser.data;
 
@@ -27,7 +27,7 @@ async function verificarEdicao(id) {
     publico.value = conteudo.publico;
     tituloForm.innerText = "Editar Alerta";
   } else {
-    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    window.location.href = "/comuniAvisa/paginas/postagens.html";
   }
 }
 
@@ -45,7 +45,7 @@ btnCriarConteudo.addEventListener("click", async (e) => {
       fd.append("publico", publico.value);
 
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_alterar.php?id="+idPost, {
+      const req = await fetch("/comuniAvisa/php/conteudo_alterar.php?id="+idPost, {
         method: 'POST',
         body: fd
       });
@@ -61,7 +61,7 @@ btnCriarConteudo.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+        window.location.href = "/comuniAvisa/paginas/postagens.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o Conteúdo. Tente novamente.";
@@ -76,7 +76,7 @@ btnCriarConteudo.addEventListener("click", async (e) => {
       fd.append("tema", tema.value);
       fd.append("publico", publico.value);
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/conteudo_novo.php", {
+      const req = await fetch("/comuniAvisa/php/conteudo_novo.php", {
         method: 'POST',
         body: fd
       });
@@ -92,7 +92,7 @@ btnCriarConteudo.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/conteudo.html";
+        window.location.href = "/comuniAvisa/paginas/conteudo.html";
       }, 1500);
     } catch(error) {
       mensagemErro.textContent = "Erro ao criar o Conteúdo. Tente novamente.";

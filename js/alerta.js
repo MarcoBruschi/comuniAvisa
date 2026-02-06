@@ -11,11 +11,11 @@ const params = new URLSearchParams(window.location.search);
 const idPost = params.get("id");
 
 async function verificarEdicao(id) {
-  const reqAlerta = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_get.php?id=" + id);
+  const reqAlerta = await fetch("/comuniAvisa/php/alerta_get.php?id=" + id);
   const resAlerta = await reqAlerta.json();
   const alerta = resAlerta.data[0];
 
-  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const reqUser = await fetch("/comuniAvisa/php/cliente_get.php");
   const resUser = await reqUser.json();
   const user = resUser.data;
 
@@ -27,7 +27,7 @@ async function verificarEdicao(id) {
     gravidade.value = alerta.gravidade;
     tituloForm.innerText = "Editar Alerta";
   } else {
-    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    window.location.href = "/comuniAvisa/paginas/postagens.html";
   }
 }
 
@@ -45,7 +45,7 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       fd.append("gravidade", gravidade.value);
 
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_alterar.php?id=" + idPost, {
+      const req = await fetch("/comuniAvisa/php/alerta_alterar.php?id=" + idPost, {
         method: 'POST',
         body: fd
       });
@@ -61,7 +61,7 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+        window.location.href = "/comuniAvisa/paginas/postagens.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o alerta. Tente novamente.";
@@ -77,7 +77,7 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       fd.append("endereco_imagem", imagem.value);
       fd.append("gravidade", gravidade.value);
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/alerta_novo.php", {
+      const req = await fetch("/comuniAvisa/php/alerta_novo.php", {
         method: 'POST',
         body: fd
       });
@@ -93,7 +93,7 @@ btnCriarAlerta.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/alerta.html";
+        window.location.href = "/comuniAvisa/paginas/alerta.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar o alerta. Tente novamente.";

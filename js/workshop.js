@@ -13,11 +13,11 @@ const params = new URLSearchParams(window.location.search);
 const idPost = params.get("id");
 
 async function verificarEdicao(id) {
-  const reqWorkshop = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_get.php?id=" + id);
+  const reqWorkshop = await fetch("/comuniAvisa/php/workshop_get.php?id=" + id);
   const resWorkshop = await reqWorkshop.json();
   const workshop = resWorkshop.data[0];
 
-  const reqUser = await fetch("http://localhost/comuniAvisaprojeto/php/cliente_get.php");
+  const reqUser = await fetch("/comuniAvisa/php/cliente_get.php");
   const resUser = await reqUser.json();
   const user = resUser.data;
 
@@ -31,7 +31,7 @@ async function verificarEdicao(id) {
     publico.value = workshop.publico;
     tituloForm.innerText = "Editar Alerta";
   } else {
-    window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+    window.location.href = "/comuniAvisa/paginas/postagens.html";
   }
 }
 
@@ -51,7 +51,7 @@ btnCriarWorkshop.addEventListener("click", async (e) => {
       fd.append("publico", publico.value);
 
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_alterar.php?id=" + idPost, {
+      const req = await fetch("/comuniAvisa/php/workshop_alterar.php?id=" + idPost, {
         method: 'POST',
         body: fd
       });
@@ -67,7 +67,7 @@ btnCriarWorkshop.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/postagens.html";
+        window.location.href = "/comuniAvisa/paginas/postagens.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao alterar o Workshop. Tente novamente.";
@@ -85,7 +85,7 @@ btnCriarWorkshop.addEventListener("click", async (e) => {
       fd.append("tema", tema.value);
       fd.append("publico", publico.value);
 
-      const req = await fetch("http://localhost/comuniAvisaprojeto/php/workshop_novo.php", {
+      const req = await fetch("/comuniAvisa/php/workshop_novo.php", {
         method: 'POST',
         body: fd
       });
@@ -101,7 +101,7 @@ btnCriarWorkshop.addEventListener("click", async (e) => {
       modalBootstrap.show();
       setTimeout(() => {
         modalBootstrap.hide();
-        window.location.href = "http://localhost/comuniAvisaprojeto/paginas/workshop.html";
+        window.location.href = "/comuniAvisa/paginas/workshop.html";
       }, 1500);
     } catch (error) {
       mensagemErro.textContent = "Erro ao criar o Workshop. Tente novamente.";
